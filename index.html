@@ -1,0 +1,143 @@
+    <!DOCTYPE html>
+    <html lang="pt-br">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Gráfico - Candidatos por Vaga</title> 
+        <link rel="stylesheet" href="style.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <header>
+        <h1>Análise de concorrêcia UEPG</h1>
+        <ul class="nav">
+            <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="index.html">Gráficos</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="indexT.html">Tabelas</a>
+            </li>
+
+        </ul>
+    </header>
+    <body>
+    <section>
+        <div class="container mt-4">
+            <div id="charts" class="row">
+        
+                <!--<div class="col-md-6 mb-4">
+                    <h4>Medicina</h4>
+                    <canvas id="med"></canvas>
+                </div> -->
+        
+        
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script type="module">
+            // Importa o banco de dados unificado
+            import { db } from './database.js'
+    
+            const charts = document.querySelector('#charts')
+    
+            // Mapeamento de cores estáticas para cada tipo de cota/vaga
+            const coresCotas = {
+                "Universal": "#36A2EB",
+                "Negro": "#FF6384",
+                "publica": "#FFCE56",
+                "PCD": "#4BC0C0"
+            };
+    
+            db.cursos.forEach(curso => {
+                // Remove espaços em branco do nome do curso para evitar IDs de HTML inválidos
+                const canvasId = `chart-${curso.id}-${curso.nome.replace(/\s+/g, '')}`;
+    
+                const chartHTML = `
+                    <section class="col-md-6 mb-4">
+                        <div class="card h-100 p-3 shadow-sm">
+                            <h3 class="h5 border-bottom pb-2">${curso.nome} (${curso.modalidade})</h3>
+                            <canvas id="${canvasId}"></canvas>
+                        </div>
+                    </section>
+                `;
+                charts.insertAdjacentHTML('beforeend', chartHTML);
+                    
+                const ctx = document.getElementById(canvasId);
+    
+                // 1. Ordena os anos de forma crescente (2016 até 2025)
+                const anosOrdenados = curso.cotas.map(c => c.ano).sort((a, b) => a - b);
+    
+                // 2. Mapeia de forma única quais tipos de cotas existem nesse curso
+                const tiposUnicos = [...new Set(curso.cotas.flatMap(c => c.tipoCota.map(t => t.tipo)))];
+    
+                // 3. Monta a estrutura correta de datasets exigida pelo Chart.js (uma linha por cota)
+                const datasets = tiposUnicos.map(tipo => {
+                    const dadosConcorrencia = anosOrdenados.map(ano => {
+                        const dadosDoAno = curso.cotas.find(c => c.ano === ano);
+                        const infoCota = dadosDoAno ? dadosDoAno.tipoCota.find(t => t.tipo === tipo) : null;
+                        
+                        // Cálculo correto: Candidatos DIVIDIDO por Vagas. Trata divisão por zero.
+                        if (infoCota && infoCota.vagas > 0) {
+                            return parseFloat((infoCota.candidatos / infoCota.vagas).toFixed(2));
+                        }
+                        return 0;
+                    });
+    
+                    return {
+                        label: tipo === 'publica' ? 'Escola Pública' : tipo,
+                        data: dadosConcorrencia,
+                        borderColor: coresCotas[tipo] || '#9966FF',
+                        backgroundColor: coresCotas[tipo] || '#9966FF',
+                        borderWidth: 2,
+                        tension: 0.1 // Suaviza a linha do gráfico
+                    };
+                });
+    
+                // Inicializa o gráfico de linha correspondente ao curso atual
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: anosOrdenados,
+                        datasets: datasets
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return `${context.dataset.label}: ${context.raw} cand/vaga`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Candidatos por Vaga'
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Ano'
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+        </script>
+
+    
+
+    </section>
+
+    </body>
+
+    </html>
