@@ -1,59 +1,62 @@
-    <!DOCTYPE html>
-    <html lang="pt-br">
+<!DOCTYPE html>
+<html lang="pt-br">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Gráfico - Candidatos por Vaga</title> 
-        <link rel="stylesheet" href="style.css">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    </head>
-    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-        <a
-            href="/"
-            class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"
-          >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráfico - Candidatos por Vaga</title> 
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body> <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
             <svg class="bi me-2" width="40" height="32" aria-hidden="true">
-              <use xlink:href="#bootstrap"></use>
+                <use xlink:href="#bootstrap"></use>
             </svg>
             <span class="fs-4">Análise concorrência UEPG</span>
-          </a>
-          <ul class="nav nav-pills">
+        </a>
+        <ul class="nav nav-pills">
             <li class="nav-item">
-              <a href="#" class="nav-link active" aria-current="page">Gráficos</a>
+                <a href="#" class="nav-link active" aria-current="page">Gráficos</a>
             </li>
             <li class="nav-item"><a href="#" class="nav-link">Tabelas</a></li>
-          </ul>
-        </header>
-      </div>
+        </ul>
     </header>
-    <body>
+
     <section>
-        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-          <div class="toast-header">
-            <strong class="me-auto">Dica</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-          </div>
-       <div class="toast-body">Para visualizar a concorrência de uma cota desejada, clique naquelas que deseja ocultar</div>
-        </div>
-        <div class="container mt-4">
-            <div id="charts" class="row">
-        
-                <!--<div class="col-md-6 mb-4">
-                    <h4>Medicina</h4>
-                    <canvas id="med"></canvas>
-                </div> -->
-        
-        
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Dica</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Para visualizar a concorrência de uma cota desejada, clique naquelas que deseja ocultar
+                </div>
             </div>
         </div>
+
+        <div class="container mt-4">
+            <div id="charts" class="row">
+                </div>
+        </div>
+
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
         <script type="module">
             // Importa o banco de dados unificado
             import { db } from './database.js'
-    
+
+            // --- NOVO: Inicialização do Toast para aparecer assim que a página carregar ---
+            const toastEl = document.getElementById('liveToast');
+            const toast = new bootstrap.Toast(toastEl);
+            toast.show(); // Exibe o toast na tela
+            // ----------------------------------------------------------------------------
+
             const charts = document.querySelector('#charts')
-    
+
             // Mapeamento de cores estáticas para cada tipo de cota/vaga
             const coresCotas = {
                 "Universal": "#36A2EB",
@@ -61,11 +64,10 @@
                 "publica": "#FFCE56",
                 "PCD": "#4BC0C0"
             };
-    
+
             db.cursos.forEach(curso => {
-                // Remove espaços em branco do nome do curso para evitar IDs de HTML inválidos
                 const canvasId = `chart-${curso.id}-${curso.nome.replace(/\s+/g, '')}`;
-    
+
                 const chartHTML = `
                     <section class="col-md-6 mb-4">
                         <div class="card h-100 p-3 shadow-sm">
@@ -77,37 +79,31 @@
                 charts.insertAdjacentHTML('beforeend', chartHTML);
                     
                 const ctx = document.getElementById(canvasId);
-    
-                // 1. Ordena os anos de forma crescente (2016 até 2025)
+
                 const anosOrdenados = curso.cotas.map(c => c.ano).sort((a, b) => a - b);
-    
-                // 2. Mapeia de forma única quais tipos de cotas existem nesse curso
                 const tiposUnicos = [...new Set(curso.cotas.flatMap(c => c.tipoCota.map(t => t.tipo)))];
-    
-                // 3. Monta a estrutura correta de datasets exigida pelo Chart.js (uma linha por cota)
+
                 const datasets = tiposUnicos.map(tipo => {
                     const dadosConcorrencia = anosOrdenados.map(ano => {
                         const dadosDoAno = curso.cotas.find(c => c.ano === ano);
                         const infoCota = dadosDoAno ? dadosDoAno.tipoCota.find(t => t.tipo === tipo) : null;
                         
-                        // Cálculo correto: Candidatos DIVIDIDO por Vagas. Trata divisão por zero.
                         if (infoCota && infoCota.vagas > 0) {
                             return parseFloat((infoCota.candidatos / infoCota.vagas).toFixed(2));
                         }
                         return 0;
                     });
-    
+
                     return {
                         label: tipo === 'publica' ? 'Escola Pública' : tipo,
                         data: dadosConcorrencia,
                         borderColor: coresCotas[tipo] || '#9966FF',
                         backgroundColor: coresCotas[tipo] || '#9966FF',
                         borderWidth: 2,
-                        tension: 0.1 // Suaviza a linha do gráfico
+                        tension: 0.1
                     };
                 });
-    
-                // Inicializa o gráfico de linha correspondente ao curso atual
+
                 new Chart(ctx, {
                     type: 'line',
                     data: {
@@ -117,9 +113,7 @@
                     options: {
                         responsive: true,
                         plugins: {
-                            legend: {
-                                position: 'bottom'
-                            },
+                            legend: { position: 'bottom' },
                             tooltip: {
                                 callbacks: {
                                     label: function(context) {
@@ -131,27 +125,16 @@
                         scales: {
                             y: {
                                 beginAtZero: true,
-                                title: {
-                                    display: true,
-                                    text: 'Candidatos por Vaga'
-                                }
+                                title: { display: true, text: 'Candidatos por Vaga' }
                             },
                             x: {
-                                title: {
-                                    display: true,
-                                    text: 'Ano'
-                                }
+                                title: { display: true, text: 'Ano' }
                             }
                         }
                     }
                 });
             });
         </script>
-
-    
-
     </section>
-
-    </body>
-
-    </html>
+</body>
+</html>
