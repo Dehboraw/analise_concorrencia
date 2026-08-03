@@ -4,7 +4,13 @@ export const db = {
             id: 1,
             nome: "Medicina",
             modalidade: "Integral",
-            salarioMedioAtual: 10017,
+            salariosAtuais: [
+                {
+                  cargo: "Médico Clínico Geral",
+                  salario: 10048,
+                  referencia: "Site: Salario.com"
+                }
+                ],
             cotas: [
                 {
                     ano: 2025,
@@ -94,13 +100,21 @@ export const db = {
                         { tipo: "Universal", vagas: 7, candidatos: 1615, notaMinima: 5868 }
                     ]
                 }
-            ]
+            ], 
+            analise: ""
+            
         },
         {
             id: 2,
             nome: "Engenharia de Software",
             modalidade: "Noturno",
-            salarioMedioAtual: 10779,
+            salariosAtuais: [
+                {
+                  cargo: "Engenheiro de Software",
+                  salario: 14437,
+                  referencia: "Site: Salario.com"
+                }
+                ],
             cotas: [
                 {
                     ano: 2025,
@@ -190,13 +204,20 @@ export const db = {
                         { tipo: "Universal", vagas: 7, candidatos: 118, notaMinima: 3158 }
                     ]
                 }
-            ]
+            ],
+            analise: ""
         },
         {
             id: 3,
             nome: "Farmácia",
             modalidade: "Integral",
-            salarioMedioAtual: 4281,
+            salariosAtuais: [
+                {
+                  cargo: "Farmacêutico em Biofarmácia",
+                  salario: 4544,
+                  referencia: "Site: Salario.com"
+                }
+                ],
             cotas: [
                 {
                     ano: 2025,
@@ -286,13 +307,20 @@ export const db = {
                         { tipo: "Universal", vagas: 8, candidatos: 117, notaMinima: 3527 }
                     ]
                 }
-            ]
+            ],
+            analise: ""
         },
         {
             id: 4,
             nome: "Odontologia",
             modalidade: "Integral",
-            salarioMedioAtual: 5117,
+            salariosAtuais: [
+                {
+                  cargo: "Dentista Geral",
+                  salario: 5730,
+                  referencia: "Site: Salario.com"
+                }
+                ],
             cotas: [
                 {
                     ano: 2025,
@@ -382,7 +410,8 @@ export const db = {
                         { tipo: "Universal", vagas: 11, candidatos: 356, notaMinima: 3966 }
                     ]
                 }
-            ]
+            ],
+            analise: ""
         }
     ]
 };
