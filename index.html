@@ -17,9 +17,9 @@
         }
 
         .grafico-container {
-            width: 65%;
-            max-width: 600px;
-            height: 280px;
+            width: 90%;
+            max-width: 900px;
+            height: 420px;
             margin: auto;
         }
 
@@ -29,9 +29,9 @@
         }
 
         .grafico-comparacao {
-            width: 70%;
-            max-width: 700px;
-            height: 280px;
+            width: 90%;
+            max-width: 950px;
+            height: 420px;
             margin: auto;
         }
 
@@ -82,12 +82,20 @@
             display: block;
         }
 
+        .perguntas-home {
+            margin-top: 50px;
+        }
+
         .accordion-button:not(.collapsed) {
             box-shadow: none;
         }
 
-        .perguntas-home {
-            margin-top: 50px;
+        @media (max-width: 768px) {
+            .grafico-container,
+            .grafico-comparacao {
+                width: 100%;
+                height: 330px;
+            }
         }
     </style>
 </head>
@@ -96,6 +104,7 @@
 
     <header class="p-3 bg-dark text-white">
         <div class="container-fluid d-flex justify-content-between align-items-center">
+
             <span class="fs-4 fw-bold">
                 Análise de Concorrência UEPG
             </span>
@@ -106,6 +115,7 @@
             >
                 Tema escuro
             </button>
+
         </div>
     </header>
 
@@ -120,8 +130,8 @@
                 </h1>
 
                 <p class="text-muted fs-5">
-                    Selecione um curso para visualizar seus gráficos
-                    e seus dados por tipo de cota.
+                    Selecione um curso para visualizar seus
+                    gráficos e seus dados por tipo de cota.
                 </p>
 
             </div>
@@ -171,10 +181,6 @@
                 <div
                     class="bg-dark text-white rounded-4 shadow p-4 p-md-5"
                 >
-
-                    <h2 class="text-center mb-3">
-                        Análise dos 4 cursos
-                    </h2>
 
                     <p class="text-center text-white-50 mb-4">
                         As perguntas abaixo devem ser respondidas
@@ -507,8 +513,7 @@
                             <select
                                 id="cotaComparacao"
                                 class="form-select"
-                            >
-                            </select>
+                            ></select>
 
                         </div>
 
@@ -609,19 +614,44 @@
 
         import { db } from './database.js';
 
-        const homeView = document.querySelector('#homeView');
-        const comparisonView = document.querySelector('#comparisonView');
-        const cursoInicial = document.querySelector('#cursoInicial');
-        const cursoSelecionado = document.querySelector('#cursoSelecionado');
-        const btnAbrirComparacao = document.querySelector('#btnAbrirComparacao');
-        const btnVoltar = document.querySelector('#btnVoltar');
-        const curso1Select = document.querySelector('#curso1');
-        const curso2Select = document.querySelector('#curso2');
-        const cotaComparacao = document.querySelector('#cotaComparacao');
-        const btnGerarComparacao = document.querySelector('#btnGerarComparacao');
-        const comparisonCharts = document.querySelector('#comparisonCharts');
-        const btnTema = document.querySelector('#btnTema');
-        const pagina = document.querySelector('#pagina');
+        const homeView =
+            document.querySelector('#homeView');
+
+        const comparisonView =
+            document.querySelector('#comparisonView');
+
+        const cursoInicial =
+            document.querySelector('#cursoInicial');
+
+        const cursoSelecionado =
+            document.querySelector('#cursoSelecionado');
+
+        const btnAbrirComparacao =
+            document.querySelector('#btnAbrirComparacao');
+
+        const btnVoltar =
+            document.querySelector('#btnVoltar');
+
+        const curso1Select =
+            document.querySelector('#curso1');
+
+        const curso2Select =
+            document.querySelector('#curso2');
+
+        const cotaComparacao =
+            document.querySelector('#cotaComparacao');
+
+        const btnGerarComparacao =
+            document.querySelector('#btnGerarComparacao');
+
+        const comparisonCharts =
+            document.querySelector('#comparisonCharts');
+
+        const btnTema =
+            document.querySelector('#btnTema');
+
+        const pagina =
+            document.querySelector('#pagina');
 
         const nomesCotas = {
             Universal: 'Universal',
@@ -635,6 +665,9 @@
             '#0d6efd',
             '#dc3545'
         ];
+
+        let graficoCursoAtual = null;
+        let graficoComparacaoAtual = null;
 
         function obterCotas(curso) {
 
@@ -657,11 +690,15 @@
             const optionInicial =
                 document.createElement('option');
 
-            optionInicial.value = curso.id;
+            optionInicial.value =
+                curso.id;
+
             optionInicial.textContent =
                 `${curso.nome} (${curso.modalidade})`;
 
-            cursoInicial.appendChild(optionInicial);
+            cursoInicial.appendChild(
+                optionInicial
+            );
 
             const option1 =
                 optionInicial.cloneNode(true);
@@ -669,8 +706,13 @@
             const option2 =
                 optionInicial.cloneNode(true);
 
-            curso1Select.appendChild(option1);
-            curso2Select.appendChild(option2);
+            curso1Select.appendChild(
+                option1
+            );
+
+            curso2Select.appendChild(
+                option2
+            );
 
         });
 
@@ -680,10 +722,13 @@
                 document.createElement('option');
 
             option.value = tipo;
+
             option.textContent =
                 nomesCotas[tipo] || tipo;
 
-            cotaComparacao.appendChild(option);
+            cotaComparacao.appendChild(
+                option
+            );
 
         });
 
@@ -700,10 +745,17 @@
                 if (!curso) {
 
                     cursoSelecionado.innerHTML = '';
-                    cursoSelecionado.classList.remove('ativo');
+
+                    cursoSelecionado.classList.remove(
+                        'ativo'
+                    );
+
+                    if (graficoCursoAtual) {
+                        graficoCursoAtual.destroy();
+                        graficoCursoAtual = null;
+                    }
 
                     return;
-
                 }
 
                 criarConteudoCurso(curso);
@@ -713,7 +765,17 @@
 
         function criarConteudoCurso(curso) {
 
-            cursoSelecionado.classList.add('ativo');
+            if (graficoCursoAtual) {
+
+                graficoCursoAtual.destroy();
+
+                graficoCursoAtual = null;
+
+            }
+
+            cursoSelecionado.classList.add(
+                'ativo'
+            );
 
             cursoSelecionado.innerHTML = `
 
@@ -787,9 +849,13 @@
                                     <tr>
 
                                         <th>Ano</th>
+
                                         <th>Candidatos</th>
+
                                         <th>Vagas</th>
+
                                         <th>Candidatos/Vaga</th>
+
                                         <th>Nota mínima</th>
 
                                     </tr>
@@ -833,11 +899,15 @@
                 const option =
                     document.createElement('option');
 
-                option.value = tipo;
+                option.value =
+                    tipo;
+
                 option.textContent =
                     nomesCotas[tipo] || tipo;
 
-                selectCota.appendChild(option);
+                selectCota.appendChild(
+                    option
+                );
 
             });
 
@@ -862,25 +932,33 @@
 
             }
 
-            criarGraficoCurso(
-                curso,
-                'graficoCursoInicial'
-            );
+            graficoCursoAtual =
+                criarGraficoCurso(
+                    curso,
+                    'graficoCursoInicial'
+                );
 
             document
-                .querySelector('#btnAnaliseCursoInicial')
+                .querySelector(
+                    '#btnAnaliseCursoInicial'
+                )
                 .addEventListener(
                     'click',
                     () => {
 
-                        abrirModalAnalise(curso);
+                        abrirModalAnalise(
+                            curso
+                        );
 
                     }
                 );
 
         }
 
-        function atualizarTabelaCurso(curso, tipo) {
+        function atualizarTabelaCurso(
+            curso,
+            tipo
+        ) {
 
             const tbody =
                 document.querySelector(
@@ -964,12 +1042,17 @@
 
         }
 
-        function criarGraficoCurso(curso, canvasId) {
+        function criarGraficoCurso(
+            curso,
+            canvasId
+        ) {
 
             const canvas =
-                document.getElementById(canvasId);
+                document.getElementById(
+                    canvasId
+                );
 
-            if (!canvas) return;
+            if (!canvas) return null;
 
             const anos = [
                 ...new Set(
@@ -1023,7 +1106,8 @@
                     return {
 
                         label:
-                            nomesCotas[tipo] || tipo,
+                            nomesCotas[tipo] ||
+                            tipo,
 
                         data:
                             dados,
@@ -1038,7 +1122,7 @@
 
                 });
 
-            new Chart(
+            return new Chart(
                 canvas,
                 {
                     type: 'line',
@@ -1055,15 +1139,18 @@
 
                     options: {
 
-                        responsive: true,
+                        responsive:
+                            true,
 
-                        maintainAspectRatio: false,
+                        maintainAspectRatio:
+                            false,
 
                         plugins: {
 
                             legend: {
 
-                                position: 'bottom'
+                                position:
+                                    'bottom'
 
                             }
 
@@ -1073,11 +1160,13 @@
 
                             y: {
 
-                                beginAtZero: true,
+                                beginAtZero:
+                                    true,
 
                                 title: {
 
-                                    display: true,
+                                    display:
+                                        true,
 
                                     text:
                                         'Candidatos por vaga'
@@ -1099,8 +1188,13 @@
             'click',
             () => {
 
-                homeView.classList.add('d-none');
-                comparisonView.classList.remove('d-none');
+                homeView.classList.add(
+                    'd-none'
+                );
+
+                comparisonView.classList.remove(
+                    'd-none'
+                );
 
                 window.scrollTo({
                     top: 0,
@@ -1114,8 +1208,13 @@
             'click',
             () => {
 
-                comparisonView.classList.add('d-none');
-                homeView.classList.remove('d-none');
+                comparisonView.classList.add(
+                    'd-none'
+                );
+
+                homeView.classList.remove(
+                    'd-none'
+                );
 
                 window.scrollTo({
                     top: 0,
@@ -1184,6 +1283,14 @@
             curso2,
             tipo
         ) {
+
+            if (graficoComparacaoAtual) {
+
+                graficoComparacaoAtual.destroy();
+
+                graficoComparacaoAtual = null;
+
+            }
 
             comparisonCharts.innerHTML = `
 
@@ -1268,96 +1375,108 @@
 
             }
 
-            new Chart(
-                document.querySelector(
-                    '#graficoComparacao'
-                ),
-                {
-                    type: 'line',
+            graficoComparacaoAtual =
+                new Chart(
+                    document.querySelector(
+                        '#graficoComparacao'
+                    ),
+                    {
+                        type: 'line',
 
-                    data: {
+                        data: {
 
-                        labels:
-                            anos,
+                            labels:
+                                anos,
 
-                        datasets: [
+                            datasets: [
 
-                            {
+                                {
 
-                                label:
-                                    curso1.nome,
+                                    label:
+                                        curso1.nome,
 
-                                data:
-                                    obterDados(curso1),
+                                    data:
+                                        obterDados(
+                                            curso1
+                                        ),
 
-                                borderColor:
-                                    coresComparacao[0],
+                                    borderColor:
+                                        coresComparacao[0],
 
-                                backgroundColor:
-                                    coresComparacao[0],
+                                    backgroundColor:
+                                        coresComparacao[0],
 
-                                borderWidth:
-                                    3,
+                                    borderWidth:
+                                        3,
 
-                                tension:
-                                    0.2
+                                    tension:
+                                        0.2
 
-                            },
+                                },
 
-                            {
+                                {
 
-                                label:
-                                    curso2.nome,
+                                    label:
+                                        curso2.nome,
 
-                                data:
-                                    obterDados(curso2),
+                                    data:
+                                        obterDados(
+                                            curso2
+                                        ),
 
-                                borderColor:
-                                    coresComparacao[1],
+                                    borderColor:
+                                        coresComparacao[1],
 
-                                backgroundColor:
-                                    coresComparacao[1],
+                                    backgroundColor:
+                                        coresComparacao[1],
 
-                                borderWidth:
-                                    3,
+                                    borderWidth:
+                                        3,
 
-                                tension:
-                                    0.2
+                                    tension:
+                                        0.2
 
-                            }
+                                }
 
-                        ]
-
-                    },
-
-                    options: {
-
-                        responsive: true,
-
-                        maintainAspectRatio: false,
-
-                        plugins: {
-
-                            legend: {
-
-                                position: 'bottom'
-
-                            }
+                            ]
 
                         },
 
-                        scales: {
+                        options: {
 
-                            y: {
+                            responsive:
+                                true,
 
-                                beginAtZero: true,
+                            maintainAspectRatio:
+                                false,
 
-                                title: {
+                            plugins: {
 
-                                    display: true,
+                                legend: {
 
-                                    text:
-                                        'Candidatos por vaga'
+                                    position:
+                                        'bottom'
+
+                                }
+
+                            },
+
+                            scales: {
+
+                                y: {
+
+                                    beginAtZero:
+                                        true,
+
+                                    title: {
+
+                                        display:
+                                            true,
+
+                                        text:
+                                            'Candidatos por vaga'
+
+                                    }
 
                                 }
 
@@ -1366,9 +1485,7 @@
                         }
 
                     }
-
-                }
-            );
+                );
 
         }
 
