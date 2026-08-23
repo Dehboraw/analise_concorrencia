@@ -103,6 +103,7 @@
 <body id="pagina">
 
     <header class="p-3 bg-dark text-white">
+
         <div class="container-fluid d-flex justify-content-between align-items-center">
 
             <span class="fs-4 fw-bold">
@@ -117,6 +118,7 @@
             </button>
 
         </div>
+
     </header>
 
     <main class="container py-5">
@@ -151,9 +153,11 @@
                         id="cursoInicial"
                         class="form-select form-select-lg"
                     >
+
                         <option value="">
                             Selecione um curso
                         </option>
+
                     </select>
 
                 </div>
@@ -176,7 +180,10 @@
 
             </div>
 
-            <div class="perguntas-home">
+            <div
+                id="perguntasHome"
+                class="perguntas-home"
+            >
 
                 <div
                     class="bg-dark text-white rounded-4 shadow p-4 p-md-5"
@@ -480,9 +487,11 @@
                                 id="curso1"
                                 class="form-select"
                             >
+
                                 <option value="">
                                     Selecione
                                 </option>
+
                             </select>
 
                         </div>
@@ -497,9 +506,11 @@
                                 id="curso2"
                                 class="form-select"
                             >
+
                                 <option value="">
                                     Selecione
                                 </option>
+
                             </select>
 
                         </div>
@@ -626,6 +637,9 @@
         const cursoSelecionado =
             document.querySelector('#cursoSelecionado');
 
+        const perguntasHome =
+            document.querySelector('#perguntasHome');
+
         const btnAbrirComparacao =
             document.querySelector('#btnAbrirComparacao');
 
@@ -721,7 +735,8 @@
             const option =
                 document.createElement('option');
 
-            option.value = tipo;
+            option.value =
+                tipo;
 
             option.textContent =
                 nomesCotas[tipo] || tipo;
@@ -750,13 +765,23 @@
                         'ativo'
                     );
 
+                    perguntasHome.style.display =
+                        'block';
+
                     if (graficoCursoAtual) {
+
                         graficoCursoAtual.destroy();
+
                         graficoCursoAtual = null;
+
                     }
 
                     return;
+
                 }
+
+                perguntasHome.style.display =
+                    'none';
 
                 criarConteudoCurso(curso);
 
@@ -1216,6 +1241,21 @@
                     'd-none'
                 );
 
+                if (cursoInicial.value) {
+
+                    cursoInicial.value = '';
+
+                    cursoSelecionado.innerHTML = '';
+
+                    cursoSelecionado.classList.remove(
+                        'ativo'
+                    );
+
+                }
+
+                perguntasHome.style.display =
+                    'block';
+
                 window.scrollTo({
                     top: 0,
                     behavior: 'smooth'
@@ -1301,9 +1341,7 @@
                         <div class="card-body">
 
                             <h3 class="text-center mb-4">
-
                                 ${nomesCotas[tipo] || tipo}
-
                             </h3>
 
                             <div class="grafico-comparacao">
