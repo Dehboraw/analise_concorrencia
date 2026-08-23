@@ -1,417 +1,2677 @@
-export const db = {
-    cursos: [
-        {
-            id: 1,
-            nome: "Medicina",
-            modalidade: "Integral",
-            salariosAtuais: [
-                {
-                  cargo: "Médico Clínico Geral",
-                  salario: 10048,
-                  referencia: "Site: Salario.com"
-                }
-                ],
-            cotas: [
-                {
-                    ano: 2025,
-                    tipoCota: [
-                        { tipo: "Negro", vagas: 2, candidatos: 124, notaMinima: 5736 },
-                        { tipo: "publicaNegro", vagas: 4, candidatos: 63, notaMinima: 4624 },
-                        { tipo: "publica", vagas: 5, candidatos: 634, notaMinima: 5975 },
-                        { tipo: "PCD", vagas: 2, candidatos: 95, notaMinima: 5933 },
-                        { tipo: "Universal", vagas: 14, candidatos: 2182, notaMinima: 6352 }
-                    ]
-                },
-                {
-                    ano: 2024,
-                    tipoCota: [
-                        { tipo: "Negro", vagas: 2, candidatos: 86, notaMinima: 5285 },
-                        { tipo: "publicaNegro", vagas: 4, candidatos: 57, notaMinima: 4363 },
-                        { tipo: "publica", vagas: 5, candidatos: 610, notaMinima: 5789 },
-                        { tipo: "PCD", vagas: 2, candidatos: 78, notaMinima: 5380 },
-                        { tipo: "Universal", vagas: 14, candidatos: 1814, notaMinima: 6118 }
-                    ]
-                },
-                {
-                    ano: 2023,
-                    tipoCota: [
-                        { tipo: "Negro", vagas: 2, candidatos: 83, notaMinima: 5965 },
-                        { tipo: "publicaNegro", vagas: 3, candidatos: 50, notaMinima: 4032 },
-                        { tipo: "publica", vagas: 12, candidatos: 662, notaMinima: 5514 },
-                        { tipo: "PCD", vagas: 2, candidatos: 47, notaMinima: 5667 },
-                        { tipo: "Universal", vagas: 11, candidatos: 1884, notaMinima: 6312 }
-                    ]
-                },
-                {
-                    ano: 2022,
-                    tipoCota: [
-                        { tipo: "Negro", vagas: 2, candidatos: 65, notaMinima: 5151 },
-                        { tipo: "publicaNegro", vagas: 3, candidatos: 67, notaMinima: 4185 },
-                        { tipo: "publica", vagas: 12, candidatos: 643, notaMinima: 5139 },
-                        { tipo: "PCD", vagas: 2, candidatos: 32, notaMinima: 4210 },
-                        { tipo: "Universal", vagas: 11, candidatos: 2107, notaMinima: 5857 }
-                    ]
-                },
-                {
-                    ano: 2021,
-                    tipoCota: [
-                        { tipo: "publicaNegro", vagas: 2, candidatos: 54, notaMinima: 4177 },
-                        { tipo: "publica", vagas: 6, candidatos: 828, notaMinima: 5587 },
-                        { tipo: "Universal", vagas: 7, candidatos: 3373, notaMinima: 6160 }
-                    ]
-                },
-                {
-                    ano: 2020,
-                    tipoCota: [
-                        { tipo: "publicaNegro", vagas: 5, candidatos: 59, notaMinima: 4397 },
-                        { tipo: "publica", vagas: 12, candidatos: 1013, notaMinima: 5206 },
-                        { tipo: "Universal", vagas: 15, candidatos: 3673, notaMinima: 5910 }
-                    ]
-                },
-                {
-                    ano: 2019,
-                    tipoCota: [
-                        { tipo: "publicaNegro", vagas: 1, candidatos: 32, notaMinima: 4648 },
-                        { tipo: "publica", vagas: 6, candidatos: 477, notaMinima: 5101 },
-                        { tipo: "Universal", vagas: 8, candidatos: 1414, notaMinima: 5650 }
-                    ]
-                },
-                {
-                    ano: 2018,
-                    tipoCota: [
-                        { tipo: "publicaNegro", vagas: 1, candidatos: 46, notaMinima: 4857 },
-                        { tipo: "publica", vagas: 6, candidatos: 616, notaMinima: 5224 },
-                        { tipo: "Universal", vagas: 8, candidatos: 1582, notaMinima: 5784 }
-                    ]
-                },
-                {
-                    ano: 2017,
-                    tipoCota: [
-                        { tipo: "publicaNegro", vagas: 2, candidatos: 54, notaMinima: 4400 },
-                        { tipo: "publica", vagas: 6, candidatos: 587, notaMinima: 4971 },
-                        { tipo: "Universal", vagas: 7, candidatos: 1505, notaMinima: 5484 }
-                    ]
-                },
-                {
-                    ano: 2016,
-                    tipoCota: [
-                        { tipo: "Negro", vagas: 1, candidatos: 46, notaMinima: 4499 },
-                        { tipo: "publica", vagas: 6, candidatos: 617, notaMinima: 5142 },
-                        { tipo: "Universal", vagas: 7, candidatos: 1615, notaMinima: 5868 }
-                    ]
-                }
-            ], 
-            analise: ""
-            
-        },
-        {
-            id: 2,
-            nome: "Engenharia de Software",
-            modalidade: "Noturno",
-            salariosAtuais: [
-                {
-                  cargo: "Engenheiro de Software",
-                  salario: 14437,
-                  referencia: "Site: Salario.com"
-                }
-                ],
-            cotas: [
-                {
-                    ano: 2025,
-                    tipoCota: [
-                        { tipo: "Negro", vagas: 2, candidatos: 16, notaMinima: 4015 },
-                        { tipo: "publicaNegro", vagas: 3, candidatos: 16, notaMinima: 2899 },
-                        { tipo: "publica", vagas: 4, candidatos: 156, notaMinima: 3952 },
-                        { tipo: "PCD", vagas: 2, candidatos: 11, notaMinima: 3077 },
-                        { tipo: "Universal", vagas: 13, candidatos: 176, notaMinima: 4706 }
-                    ]
-                },
-                {
-                    ano: 2024,
-                    tipoCota: [
-                        { tipo: "Negro", vagas: 2, candidatos: 15, notaMinima: 3730 },
-                        { tipo: "publicaNegro", vagas: 3, candidatos: 11, notaMinima: 3486 },
-                        { tipo: "publica", vagas: 4, candidatos: 160, notaMinima: 3951 },
-                        { tipo: "PCD", vagas: 2, candidatos: 4, notaMinima: 1916 },
-                        { tipo: "Universal", vagas: 13, candidatos: 184, notaMinima: 4692 }
-                    ]
-                },
-                {
-                    ano: 2023,
-                    tipoCota: [
-                        { tipo: "Negro", vagas: 2, candidatos: 11, notaMinima: 3240 },
-                        { tipo: "publicaNegro", vagas: 3, candidatos: 9, notaMinima: 2525 },
-                        { tipo: "publica", vagas: 12, candidatos: 151, notaMinima: 3537 },
-                        { tipo: "PCD", vagas: 2, candidatos: 4, notaMinima: 2449 },
-                        { tipo: "Universal", vagas: 11, candidatos: 171, notaMinima: 4457 }
-                    ]
-                },
-                {
-                    ano: 2022,
-                    tipoCota: [
-                        { tipo: "Negro", vagas: 2, candidatos: 4, notaMinima: 2800 },
-                        { tipo: "publicaNegro", vagas: 3, candidatos: 10, notaMinima: 2947 },
-                        { tipo: "publica", vagas: 12, candidatos: 173, notaMinima: 3345 },
-                        { tipo: "PCD", vagas: 2, candidatos: 2, notaMinima: 2212 },
-                        { tipo: "Universal", vagas: 11, candidatos: 222, notaMinima: 4368 }
-                    ]
-                },
-                {
-                    ano: 2021,
-                    tipoCota: [
-                        { tipo: "publicaNegro", vagas: 2, candidatos: 4, notaMinima: 0 },
-                        { tipo: "publica", vagas: 6, candidatos: 89, notaMinima: 3262 },
-                        { tipo: "Universal", vagas: 7, candidatos: 180, notaMinima: 4193 }
-                    ]
-                },
-                {
-                    ano: 2020,
-                    tipoCota: [
-                        { tipo: "publicaNegro", vagas: 3, candidatos: 3, notaMinima: 1942 },
-                        { tipo: "publica", vagas: 12, candidatos: 71, notaMinima: 2949 },
-                        { tipo: "Universal", vagas: 15, candidatos: 150, notaMinima: 3437 }
-                    ]
-                },
-                {
-                    ano: 2019,
-                    tipoCota: [
-                        { tipo: "publicaNegro", vagas: 1, candidatos: 4, notaMinima: 2809 },
-                        { tipo: "publica", vagas: 6, candidatos: 88, notaMinima: 3007 },
-                        { tipo: "Universal", vagas: 8, candidatos: 126, notaMinima: 3409 }
-                    ]
-                },
-                {
-                    ano: 2018,
-                    tipoCota: [
-                        { tipo: "publicaNegro", vagas: 3, candidatos: 5, notaMinima: 0 },
-                        { tipo: "publica", vagas: 12, candidatos: 55, notaMinima: 2466 },
-                        { tipo: "Universal", vagas: 15, candidatos: 110, notaMinima: 3172 }
-                    ]
-                },
-                {
-                    ano: 2017,
-                    tipoCota: [
-                        { tipo: "publicaNegro", vagas: 2, candidatos: 5, notaMinima: 0 },
-                        { tipo: "publica", vagas: 6, candidatos: 73, notaMinima: 2693 },
-                        { tipo: "Universal", vagas: 7, candidatos: 103, notaMinima: 3539 }
-                    ]
-                },
-                {
-                    ano: 2016,
-                    tipoCota: [
-                        { tipo: "publicaNegro", vagas: 1, candidatos: 3, notaMinima: 2331 },
-                        { tipo: "publica", vagas: 6, candidatos: 86, notaMinima: 2700 },
-                        { tipo: "Universal", vagas: 7, candidatos: 118, notaMinima: 3158 }
-                    ]
-                }
-            ],
-            analise: ""
-        },
-        {
-            id: 3,
-            nome: "Farmácia",
-            modalidade: "Integral",
-            salariosAtuais: [
-                {
-                  cargo: "Farmacêutico em Biofarmácia",
-                  salario: 4544,
-                  referencia: "Site: Salario.com"
-                }
-                ],
-            cotas: [
-                {
-                    ano: 2025,
-                    tipoCota: [
-                        { tipo: "Negro", vagas: 2, candidatos: 2, notaMinima: 2482 },
-                        { tipo: "publicaNegro", vagas: 4, candidatos: 4, notaMinima: 1967 },
-                        { tipo: "publica", vagas: 5, candidatos: 55, notaMinima: 3393 },
-                        { tipo: "PCD", vagas: 2, candidatos: 3, notaMinima: 2627 },
-                        { tipo: "Universal", vagas: 14, candidatos: 77, notaMinima: 4255 }
-                    ]
-                },
-                {
-                    ano: 2024,
-                    tipoCota: [
-                        { tipo: "Negro", vagas: 2, candidatos: 2, notaMinima: 3024 },
-                        { tipo: "publicaNegro", vagas: 4, candidatos: 3, notaMinima: 1620 },
-                        { tipo: "publica", vagas: 5, candidatos: 69, notaMinima: 2961 },
-                        { tipo: "PCD", vagas: 2, candidatos: 1, notaMinima: 0 },
-                        { tipo: "Universal", vagas: 14, candidatos: 73, notaMinima: 3764 }
-                    ]
-                },
-                {
-                    ano: 2023,
-                    tipoCota: [
-                        { tipo: "Negro", vagas: 2, candidatos: 1, notaMinima: 0 },
-                        { tipo: "publicaNegro", vagas: 3, candidatos: 1, notaMinima: 0 },
-                        { tipo: "publica", vagas: 14, candidatos: 48, notaMinima: 2793 },
-                        { tipo: "PCD", vagas: 2, candidatos: 0, notaMinima: 0 },
-                        { tipo: "Universal", vagas: 13, candidatos: 79, notaMinima: 4280 }
-                    ]
-                },
-                {
-                    ano: 2022,
-                    tipoCota: [
-                        { tipo: "Negro", vagas: 2, candidatos: 1, notaMinima: 4492 },
-                        { tipo: "publicaNegro", vagas: 3, candidatos: 1, notaMinima: 2103 },
-                        { tipo: "publica", vagas: 14, candidatos: 57, notaMinima: 2508 },
-                        { tipo: "PCD", vagas: 2, candidatos: 1, notaMinima: 1969 },
-                        { tipo: "Universal", vagas: 13, candidatos: 76, notaMinima: 3488 }
-                    ]
-                },
-                {
-                    ano: 2021,
-                    tipoCota: [
-                        { tipo: "publicaNegro", vagas: 2, candidatos: 2, notaMinima: 0 },
-                        { tipo: "publica", vagas: 7, candidatos: 58, notaMinima: 3201 },
-                        { tipo: "Universal", vagas: 8, candidatos: 107, notaMinima: 3997 }
-                    ]
-                },
-                {
-                    ano: 2020,
-                    tipoCota: [
-                        { tipo: "publicaNegro", vagas: 3, candidatos: 3, notaMinima: 2126 },
-                        { tipo: "publica", vagas: 14, candidatos: 67, notaMinima: 2714 },
-                        { tipo: "Universal", vagas: 17, candidatos: 125, notaMinima: 3132 }
-                    ]
-                },
-                {
-                    ano: 2019,
-                    tipoCota: [
-                        { tipo: "publicaNegro", vagas: 1, candidatos: 1, notaMinima: 0 },
-                        { tipo: "publica", vagas: 7, candidatos: 54, notaMinima: 2654 },
-                        { tipo: "Universal", vagas: 9, candidatos: 101, notaMinima: 3506 }
-                    ]
-                },
-                {
-                    ano: 2018,
-                    tipoCota: [
-                        { tipo: "publicaNegro", vagas: 1, candidatos: 2, notaMinima: 2887 },
-                        { tipo: "publica", vagas: 7, candidatos: 53, notaMinima: 2865 },
-                        { tipo: "Universal", vagas: 9, candidatos: 95, notaMinima: 3657 }
-                    ]
-                },
-                {
-                    ano: 2017,
-                    tipoCota: [
-                        { tipo: "publicaNegro", vagas: 1, candidatos: 1, notaMinima: 0 },
-                        { tipo: "publica", vagas: 8, candidatos: 58, notaMinima: 2526 },
-                        { tipo: "Universal", vagas: 8, candidatos: 91, notaMinima: 3655 }
-                    ]
-                },
-                {
-                    ano: 2016,
-                    tipoCota: [
-                        { tipo: "publicaNegro", vagas: 2, candidatos: 2, notaMinima: 0 },
-                        { tipo: "publica", vagas: 6, candidatos: 62, notaMinima: 2242 },
-                        { tipo: "Universal", vagas: 8, candidatos: 117, notaMinima: 3527 }
-                    ]
-                }
-            ],
-            analise: ""
-        },
-        {
-            id: 4,
-            nome: "Odontologia",
-            modalidade: "Integral",
-            salariosAtuais: [
-                {
-                  cargo: "Dentista Geral",
-                  salario: 5730,
-                  referencia: "Site: Salario.com"
-                }
-                ],
-            cotas: [
-                {
-                    ano: 2025,
-                    tipoCota: [
-                        { tipo: "Negro", vagas: 2, candidatos: 8, notaMinima: 3078 },
-                        { tipo: "publicaNegro", vagas: 5, candidatos: 7, notaMinima: 2467 },
-                        { tipo: "publica", vagas: 6, candidatos: 90, notaMinima: 3646 },
-                        { tipo: "PCD", vagas: 2, candidatos: 4, notaMinima: 2881 },
-                        { tipo: "Universal", vagas: 18, candidatos: 206, notaMinima: 4414 }
-                    ]
-                },
-                {
-                    ano: 2024,
-                    tipoCota: [
-                        { tipo: "Negro", vagas: 2, candidatos: 6, notaMinima: 3477 },
-                        { tipo: "publicaNegro", vagas: 5, candidatos: 10, notaMinima: 2131 },
-                        { tipo: "publica", vagas: 6, candidatos: 96, notaMinima: 3661 },
-                        { tipo: "PCD", vagas: 2, candidatos: 5, notaMinima: 3102 },
-                        { tipo: "Universal", vagas: 18, candidatos: 153, notaMinima: 4266 }
-                    ]
-                },
-                {
-                    ano: 2023,
-                    tipoCota: [
-                        { tipo: "Negro", vagas: 2, candidatos: 8, notaMinima: 2862 },
-                        { tipo: "publicaNegro", vagas: 5, candidatos: 7, notaMinima: 2157 },
-                        { tipo: "publica", vagas: 18, candidatos: 91, notaMinima: 3042 },
-                        { tipo: "PCD", vagas: 2, candidatos: 2, notaMinima: 2028 },
-                        { tipo: "Universal", vagas: 18, candidatos: 161, notaMinima: 4274 }
-                    ]
-                },
-                {
-                    ano: 2022,
-                    tipoCota: [
-                        { tipo: "Negro", vagas: 2, candidatos: 2, notaMinima: 1779 },
-                        { tipo: "publicaNegro", vagas: 5, candidatos: 4, notaMinima: 1731 },
-                        { tipo: "publica", vagas: 18, candidatos: 111, notaMinima: 2849 },
-                        { tipo: "PCD", vagas: 2, candidatos: 2, notaMinima: 2099 },
-                        { tipo: "Universal", vagas: 18, candidatos: 193, notaMinima: 4017 }
-                    ]
-                },
-                {
-                    ano: 2021,
-                    tipoCota: [
-                        { tipo: "publicaNegro", vagas: 3, candidatos: 5, notaMinima: 2150 },
-                        { tipo: "publica", vagas: 9, candidatos: 117, notaMinima: 3497 },
-                        { tipo: "Universal", vagas: 11, candidatos: 303, notaMinima: 4413 }
-                    ]
-                },
-                {
-                    ano: 2020,
-                    tipoCota: [
-                        { tipo: "publicaNegro", vagas: 5, candidatos: 7, notaMinima: 1924 },
-                        { tipo: "publica", vagas: 18, candidatos: 136, notaMinima: 3126 },
-                        { tipo: "Universal", vagas: 22, candidatos: 312, notaMinima: 4009 }
-                    ]
-                },
-                {
-                    ano: 2019,
-                    tipoCota: [
-                        { tipo: "publicaNegro", vagas: 2, candidatos: 8, notaMinima: 2807 },
-                        { tipo: "publica", vagas: 9, candidatos: 139, notaMinima: 3276 },
-                        { tipo: "Universal", vagas: 11, candidatos: 241, notaMinima: 4226 }
-                    ]
-                },
-                {
-                    ano: 2018,
-                    tipoCota: [
-                        { tipo: "publicaNegro", vagas: 3, candidatos: 9, notaMinima: 2493 },
-                        { tipo: "publica", vagas: 9, candidatos: 157, notaMinima: 3242 },
-                        { tipo: "Universal", vagas: 10, candidatos: 275, notaMinima: 4024 }
-                    ]
-                },
-                {
-                    ano: 2017,
-                    tipoCota: [
-                        { tipo: "publicaNegro", vagas: 2, candidatos: 11, notaMinima: 2674 },
-                        { tipo: "publica", vagas: 9, candidatos: 171, notaMinima: 3325 },
-                        { tipo: "Universal", vagas: 11, candidatos: 326, notaMinima: 3934 }
-                    ]
-                },
-                {
-                    ano: 2016,
-                    tipoCota: [
-                        { tipo: "publicaNegro", vagas: 2, candidatos: 15, notaMinima: 0 },
-                        { tipo: "publica", vagas: 9, candidatos: 192, notaMinima: 3139 },
-                        { tipo: "Universal", vagas: 11, candidatos: 356, notaMinima: 3966 }
-                    ]
-                }
-            ],
-            analise: ""
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Análise de Concorrência UEPG</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <style>
+        body {
+            background-color: #f8f9fa;
         }
-    ]
+
+        .grafico-container {
+            width: 90%;
+            max-width: 900px;
+            height: 420px;
+            margin: auto;
+        }
+
+        .grafico-container canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .grafico-comparacao {
+            width: 90%;
+            max-width: 950px;
+            height: 420px;
+            margin: auto;
+        }
+
+        .grafico-comparacao canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .curso-conteudo {
+            display: none;
+        }
+
+        .curso-conteudo.ativo {
+            display: block;
+        }
+
+        .perguntas-home {
+            margin-top: 50px;
+        }
+
+        .mercado-trabalho {
+            border-left: 5px solid #0d6efd;
+        }
+
+        .salario-box {
+            background: linear-gradient(
+                135deg,
+                #0d6efd,
+                #084298
+            );
+            color: white;
+            border-radius: 15px;
+        }
+
+        .salario-valor {
+            font-size: 2.2rem;
+            font-weight: bold;
+        }
+
+        .modal-dialog {
+            max-width: 1100px;
+        }
+
+        .analise-texto {
+            line-height: 1.8;
+            text-align: justify;
+        }
+
+        .analise-texto h5 {
+            margin-top: 28px;
+            margin-bottom: 12px;
+            font-weight: bold;
+        }
+
+        .table th {
+            white-space: nowrap;
+        }
+
+        @media (max-width: 768px) {
+            .grafico-container,
+            .grafico-comparacao {
+                width: 100%;
+                height: 330px;
+            }
+
+            .salario-valor {
+                font-size: 1.7rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="p-3 bg-dark text-white">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-center">
+            <span class="fs-4 fw-bold">
+                Análise de Concorrência UEPG
+            </span>
+        </div>
+    </div>
+</header>
+
+<main class="container py-5">
+
+    <section id="homeView">
+
+        <div class="text-center mb-4">
+
+            <h1 class="mb-3">
+                Análise de Concorrência
+            </h1>
+
+            <p class="text-muted fs-5">
+                Selecione um curso para visualizar seus
+                gráficos, dados por cota e informações
+                sobre o mercado de trabalho.
+            </p>
+
+        </div>
+
+        <div class="row justify-content-center mb-4">
+
+            <div class="col-md-6">
+
+                <label
+                    for="cursoInicial"
+                    class="form-label fw-bold"
+                >
+                    Selecione um curso
+                </label>
+
+                <select
+                    id="cursoInicial"
+                    class="form-select form-select-lg"
+                >
+
+                    <option value="">
+                        Selecione um curso
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <div
+            id="cursoSelecionado"
+            class="curso-conteudo"
+        ></div>
+
+        <div class="text-center mt-5">
+
+            <button
+                id="btnAbrirComparacao"
+                class="btn btn-primary btn-lg px-5 py-3"
+            >
+                Comparar cursos
+            </button>
+
+        </div>
+
+        <div
+            id="perguntasHome"
+            class="perguntas-home"
+        >
+
+            <div
+                class="bg-dark text-white rounded-4 shadow p-4 p-md-5"
+            >
+
+                <p class="text-center text-white-50 mb-4">
+                    As perguntas abaixo devem ser respondidas
+                    considerando somente os quatro cursos
+                    disponíveis no sistema.
+                </p>
+
+                <div
+                    class="accordion accordion-flush"
+                    id="accordionPerguntasHome"
+                >
+
+                    <div class="accordion-item bg-dark border-secondary">
+
+                        <h2 class="accordion-header">
+
+                            <button
+                                class="accordion-button bg-dark text-white"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#homePergunta1"
+                            >
+                                Qual dos 4 cursos apresentou maior concorrência?
+                            </button>
+
+                        </h2>
+
+                        <div
+                            id="homePergunta1"
+                            class="accordion-collapse collapse show"
+                        >
+
+                            <div class="accordion-body text-white-50">
+                                Compare a relação entre candidatos
+                                e vagas dos quatro cursos para
+                                identificar aquele que apresentou
+                                maior concorrência.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="accordion-item bg-dark border-secondary">
+
+                        <h2 class="accordion-header">
+
+                            <button
+                                class="accordion-button collapsed bg-dark text-white"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#homePergunta2"
+                            >
+                                Qual dos 4 cursos apresentou menor concorrência?
+                            </button>
+
+                        </h2>
+
+                        <div
+                            id="homePergunta2"
+                            class="accordion-collapse collapse"
+                        >
+
+                            <div class="accordion-body text-white-50">
+                                Analise os dados dos quatro cursos
+                                e identifique aquele que apresentou
+                                a menor relação entre candidatos
+                                e vagas.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="accordion-item bg-dark border-secondary">
+
+                        <h2 class="accordion-header">
+
+                            <button
+                                class="accordion-button collapsed bg-dark text-white"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#homePergunta3"
+                            >
+                                Qual curso apresentou maior crescimento da concorrência?
+                            </button>
+
+                        </h2>
+
+                        <div
+                            id="homePergunta3"
+                            class="accordion-collapse collapse"
+                        >
+
+                            <div class="accordion-body text-white-50">
+                                Observe a evolução histórica dos
+                                quatro cursos e identifique qual
+                                apresentou o maior crescimento
+                                da concorrência.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="accordion-item bg-dark border-secondary">
+
+                        <h2 class="accordion-header">
+
+                            <button
+                                class="accordion-button collapsed bg-dark text-white"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#homePergunta4"
+                            >
+                                Qual curso apresentou maior estabilidade?
+                            </button>
+
+                        </h2>
+
+                        <div
+                            id="homePergunta4"
+                            class="accordion-collapse collapse"
+                        >
+
+                            <div class="accordion-body text-white-50">
+                                Compare as variações dos quatro cursos
+                                ao longo dos anos para identificar
+                                aquele que apresentou maior estabilidade.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="accordion-item bg-dark border-secondary">
+
+                        <h2 class="accordion-header">
+
+                            <button
+                                class="accordion-button collapsed bg-dark text-white"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#homePergunta5"
+                            >
+                                Qual dos 4 cursos apresentou as maiores notas mínimas?
+                            </button>
+
+                        </h2>
+
+                        <div
+                            id="homePergunta5"
+                            class="accordion-collapse collapse"
+                        >
+
+                            <div class="accordion-body text-white-50">
+                                Utilize as notas mínimas de cada
+                                modalidade de cota para comparar
+                                os quatro cursos.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="accordion-item bg-dark border-secondary">
+
+                        <h2 class="accordion-header">
+
+                            <button
+                                class="accordion-button collapsed bg-dark text-white"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#homePergunta6"
+                            >
+                                Qual curso apresentou maior variação ao longo dos anos?
+                            </button>
+
+                        </h2>
+
+                        <div
+                            id="homePergunta6"
+                            class="accordion-collapse collapse"
+                        >
+
+                            <div class="accordion-body text-white-50">
+                                Analise as mudanças nos dados históricos
+                                dos quatro cursos e identifique aquele
+                                que apresentou maior variação.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="accordion-item bg-dark border-secondary">
+
+                        <h2 class="accordion-header">
+
+                            <button
+                                class="accordion-button collapsed bg-dark text-white"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#homePergunta7"
+                            >
+                                Existe relação entre concorrência e nota mínima?
+                            </button>
+
+                        </h2>
+
+                        <div
+                            id="homePergunta7"
+                            class="accordion-collapse collapse"
+                        >
+
+                            <div class="accordion-body text-white-50">
+                                Compare os dados de concorrência
+                                e nota mínima dos quatro cursos
+                                para verificar se existe relação
+                                entre essas variáveis.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="accordion-item bg-dark border-secondary">
+
+                        <h2 class="accordion-header">
+
+                            <button
+                                class="accordion-button collapsed bg-dark text-white"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#homePergunta8"
+                            >
+                                Qual dos 4 cursos apresenta o cenário mais favorável?
+                            </button>
+
+                        </h2>
+
+                        <div
+                            id="homePergunta8"
+                            class="accordion-collapse collapse"
+                        >
+
+                            <div class="accordion-body text-white-50">
+                                Considere conjuntamente concorrência,
+                                evolução histórica, vagas e notas
+                                mínimas para realizar uma análise
+                                geral dos quatro cursos.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section
+        id="comparisonView"
+        class="d-none"
+    >
+
+        <div class="text-center mb-4">
+
+            <h2>
+                Comparar cursos
+            </h2>
+
+            <p class="text-muted">
+                Selecione dois cursos e o tipo de cota
+                para realizar a comparação.
+            </p>
+
+        </div>
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-body">
+
+                <div class="row g-3">
+
+                    <div class="col-md-4">
+
+                        <label class="form-label fw-bold">
+                            Primeiro curso
+                        </label>
+
+                        <select
+                            id="curso1"
+                            class="form-select"
+                        >
+
+                            <option value="">
+                                Selecione
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <label class="form-label fw-bold">
+                            Segundo curso
+                        </label>
+
+                        <select
+                            id="curso2"
+                            class="form-select"
+                        >
+
+                            <option value="">
+                                Selecione
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <label class="form-label fw-bold">
+                            Tipo de cota
+                        </label>
+
+                        <select
+                            id="cotaComparacao"
+                            class="form-select"
+                        ></select>
+
+                    </div>
+
+                    <div class="col-12 text-center">
+
+                        <button
+                            id="btnGerarComparacao"
+                            class="btn btn-success px-5"
+                        >
+                            Comparar
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div
+            id="comparisonCharts"
+            class="row justify-content-center"
+        ></div>
+
+        <div class="text-center mt-4">
+
+            <button
+                id="btnVoltar"
+                class="btn btn-secondary"
+            >
+                Voltar
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
+
+<div
+    class="modal fade"
+    id="modalAnalise"
+    tabindex="-1"
+>
+
+    <div
+        class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"
+    >
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-dark text-white">
+
+                <h5
+                    id="modalTitulo"
+                    class="modal-title"
+                >
+                    Análise
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="modal"
+                ></button>
+
+            </div>
+
+            <div
+                id="modalConteudo"
+                class="modal-body"
+            ></div>
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Fechar
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script type="module">
+
+import { db } from './database.js';
+
+const homeView =
+    document.querySelector('#homeView');
+
+const comparisonView =
+    document.querySelector('#comparisonView');
+
+const cursoInicial =
+    document.querySelector('#cursoInicial');
+
+const cursoSelecionado =
+    document.querySelector('#cursoSelecionado');
+
+const perguntasHome =
+    document.querySelector('#perguntasHome');
+
+const btnAbrirComparacao =
+    document.querySelector('#btnAbrirComparacao');
+
+const btnVoltar =
+    document.querySelector('#btnVoltar');
+
+const curso1Select =
+    document.querySelector('#curso1');
+
+const curso2Select =
+    document.querySelector('#curso2');
+
+const cotaComparacao =
+    document.querySelector('#cotaComparacao');
+
+const btnGerarComparacao =
+    document.querySelector('#btnGerarComparacao');
+
+const comparisonCharts =
+    document.querySelector('#comparisonCharts');
+
+const nomesCotas = {
+    Universal: 'Universal',
+    Negro: 'Negro',
+    publica: 'Escola Pública',
+    publicaNegro: 'Escola Pública + Negro',
+    PCD: 'PCD'
 };
+
+const coresComparacao = [
+    '#0d6efd',
+    '#dc3545'
+];
+
+let graficoCursoAtual = null;
+let graficoComparacaoAtual = null;
+
+function obterCotas(curso) {
+
+    if (
+        !curso ||
+        !Array.isArray(curso.cotas)
+    ) {
+        return [];
+    }
+
+    return [
+        ...new Set(
+            curso.cotas.flatMap(
+                ano =>
+                    Array.isArray(ano.tipoCota)
+                        ? ano.tipoCota.map(
+                            cota => cota.tipo
+                        )
+                        : []
+            )
+        )
+    ];
+}
+
+function obterSalario(curso) {
+
+    if (
+        !curso ||
+        !Array.isArray(curso.salariosAtuais) ||
+        curso.salariosAtuais.length === 0
+    ) {
+        return null;
+    }
+
+    const salario =
+        curso.salariosAtuais[0]?.salario;
+
+    if (
+        salario === undefined ||
+        salario === null ||
+        salario === ''
+    ) {
+        return null;
+    }
+
+    const valor =
+        Number(salario);
+
+    if (Number.isNaN(valor)) {
+        return null;
+    }
+
+    return valor;
+}
+
+function obterCargo(curso) {
+
+    if (
+        !curso ||
+        !Array.isArray(curso.salariosAtuais) ||
+        curso.salariosAtuais.length === 0
+    ) {
+        return null;
+    }
+
+    return (
+        curso.salariosAtuais[0]?.cargo ||
+        null
+    );
+}
+
+function obterReferenciaSalario(curso) {
+
+    if (
+        !curso ||
+        !Array.isArray(curso.salariosAtuais) ||
+        curso.salariosAtuais.length === 0
+    ) {
+        return null;
+    }
+
+    return (
+        curso.salariosAtuais[0]?.referencia ||
+        null
+    );
+}
+
+function formatarSalario(valor) {
+
+    if (
+        valor === null ||
+        valor === undefined ||
+        Number.isNaN(Number(valor))
+    ) {
+        return 'Não informado';
+    }
+
+    return Number(valor).toLocaleString(
+        'pt-BR',
+        {
+            style: 'currency',
+            currency: 'BRL'
+        }
+    );
+}
+
+function calcularMediaConcorrencia(curso) {
+
+    const valores = [];
+
+    if (
+        !curso ||
+        !Array.isArray(curso.cotas)
+    ) {
+        return 0;
+    }
+
+    curso.cotas.forEach(ano => {
+
+        if (
+            !Array.isArray(
+                ano.tipoCota
+            )
+        ) {
+            return;
+        }
+
+        ano.tipoCota.forEach(cota => {
+
+            if (
+                Number(cota.vagas) > 0 &&
+                Number(cota.candidatos) >= 0
+            ) {
+
+                valores.push(
+                    Number(cota.candidatos) /
+                    Number(cota.vagas)
+                );
+
+            }
+
+        });
+
+    });
+
+    if (!valores.length) {
+        return 0;
+    }
+
+    return valores.reduce(
+        (a, b) => a + b,
+        0
+    ) / valores.length;
+}
+
+function calcularMediaCandidatos(curso) {
+
+    const valores = [];
+
+    if (
+        !curso ||
+        !Array.isArray(curso.cotas)
+    ) {
+        return 0;
+    }
+
+    curso.cotas.forEach(ano => {
+
+        if (
+            !Array.isArray(
+                ano.tipoCota
+            )
+        ) {
+            return;
+        }
+
+        let total = 0;
+
+        ano.tipoCota.forEach(cota => {
+
+            if (
+                Number(cota.candidatos) >= 0
+            ) {
+
+                total += Number(
+                    cota.candidatos
+                );
+
+            }
+
+        });
+
+        if (total > 0) {
+            valores.push(total);
+        }
+
+    });
+
+    if (!valores.length) {
+        return 0;
+    }
+
+    return valores.reduce(
+        (a, b) => a + b,
+        0
+    ) / valores.length;
+}
+
+function calcularMediaNota(curso) {
+
+    const notas = [];
+
+    if (
+        !curso ||
+        !Array.isArray(curso.cotas)
+    ) {
+        return 0;
+    }
+
+    curso.cotas.forEach(ano => {
+
+        if (
+            !Array.isArray(
+                ano.tipoCota
+            )
+        ) {
+            return;
+        }
+
+        ano.tipoCota.forEach(cota => {
+
+            const nota =
+                Number(
+                    cota.notaMinima
+                );
+
+            if (
+                !Number.isNaN(nota) &&
+                nota > 0
+            ) {
+
+                notas.push(nota);
+
+            }
+
+        });
+
+    });
+
+    if (!notas.length) {
+        return 0;
+    }
+
+    return notas.reduce(
+        (a, b) => a + b,
+        0
+    ) / notas.length;
+}
+
+function maiorConcorrencia(curso) {
+
+    let maior = null;
+
+    if (
+        !curso ||
+        !Array.isArray(curso.cotas)
+    ) {
+        return null;
+    }
+
+    curso.cotas.forEach(ano => {
+
+        if (
+            !Array.isArray(
+                ano.tipoCota
+            )
+        ) {
+            return;
+        }
+
+        ano.tipoCota.forEach(cota => {
+
+            if (
+                Number(cota.vagas) > 0
+            ) {
+
+                const concorrencia =
+                    Number(
+                        cota.candidatos
+                    ) /
+                    Number(
+                        cota.vagas
+                    );
+
+                if (
+                    maior === null ||
+                    concorrencia > maior.valor
+                ) {
+
+                    maior = {
+
+                        valor:
+                            concorrencia,
+
+                        ano:
+                            ano.ano,
+
+                        candidatos:
+                            cota.candidatos,
+
+                        vagas:
+                            cota.vagas,
+
+                        tipo:
+                            cota.tipo
+
+                    };
+
+                }
+
+            }
+
+        });
+
+    });
+
+    return maior;
+}
+
+db.cursos.forEach(curso => {
+
+    const optionInicial =
+        document.createElement('option');
+
+    optionInicial.value =
+        curso.id;
+
+    optionInicial.textContent =
+        `${curso.nome} (${curso.modalidade})`;
+
+    cursoInicial.appendChild(
+        optionInicial
+    );
+
+    curso1Select.appendChild(
+        optionInicial.cloneNode(true)
+    );
+
+    curso2Select.appendChild(
+        optionInicial.cloneNode(true)
+    );
+
+});
+
+const todosTiposCota = [
+    ...new Set(
+        db.cursos.flatMap(
+            curso =>
+                obterCotas(curso)
+        )
+    )
+];
+
+todosTiposCota.forEach(tipo => {
+
+    const option =
+        document.createElement('option');
+
+    option.value =
+        tipo;
+
+    option.textContent =
+        nomesCotas[tipo] || tipo;
+
+    cotaComparacao.appendChild(
+        option
+    );
+
+});
+
+cursoInicial.addEventListener(
+    'change',
+    () => {
+
+        const curso =
+            db.cursos.find(
+                item =>
+                    item.id == cursoInicial.value
+            );
+
+        if (!curso) {
+
+            cursoSelecionado.innerHTML = '';
+
+            cursoSelecionado.classList.remove(
+                'ativo'
+            );
+
+            perguntasHome.style.display =
+                'block';
+
+            if (graficoCursoAtual) {
+
+                graficoCursoAtual.destroy();
+
+                graficoCursoAtual = null;
+
+            }
+
+            return;
+
+        }
+
+        perguntasHome.style.display =
+            'none';
+
+        criarConteudoCurso(curso);
+
+    }
+);
+
+function criarConteudoCurso(curso) {
+
+    if (graficoCursoAtual) {
+
+        graficoCursoAtual.destroy();
+
+        graficoCursoAtual = null;
+
+    }
+
+    cursoSelecionado.classList.add(
+        'ativo'
+    );
+
+    const salario =
+        obterSalario(curso);
+
+    const cargo =
+        obterCargo(curso);
+
+    const referencia =
+        obterReferenciaSalario(curso);
+
+    const mediaConcorrencia =
+        calcularMediaConcorrencia(curso);
+
+    const mediaCandidatos =
+        calcularMediaCandidatos(curso);
+
+    const mediaNota =
+        calcularMediaNota(curso);
+
+    cursoSelecionado.innerHTML = `
+
+        <div class="text-center mb-4">
+
+            <h2>
+                ${curso.nome}
+            </h2>
+
+            <p class="text-muted">
+                ${curso.modalidade || ''}
+            </p>
+
+        </div>
+
+        <div class="card shadow-sm mb-5">
+
+            <div class="card-body">
+
+                <h3 class="text-center mb-4">
+                    Concorrência por ano
+                </h3>
+
+                <div class="grafico-container">
+
+                    <canvas
+                        id="graficoCursoInicial"
+                    ></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card shadow-sm mb-5">
+
+            <div class="card-body">
+
+                <h3 class="mb-4">
+                    Dados por cota
+                </h3>
+
+                <div class="row justify-content-center">
+
+                    <div class="col-md-6">
+
+                        <label
+                            class="form-label fw-bold"
+                        >
+                            Tipo de cota
+                        </label>
+
+                        <select
+                            id="cotaCursoInicial"
+                            class="form-select"
+                        ></select>
+
+                    </div>
+
+                </div>
+
+                <div class="table-responsive mt-4">
+
+                    <table
+                        class="table table-striped table-hover table-bordered"
+                    >
+
+                        <thead class="table-dark">
+
+                            <tr>
+
+                                <th>Ano</th>
+
+                                <th>Candidatos</th>
+
+                                <th>Vagas</th>
+
+                                <th>Candidatos/Vaga</th>
+
+                                <th>Nota mínima</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody
+                            id="tbodyCursoInicial"
+                        ></tbody>
+
+                    </table>
+
+                </div>
+
+                <div class="text-center mt-4">
+
+                    <button
+                        class="btn btn-dark"
+                        id="btnAnaliseCursoInicial"
+                    >
+                        Análise
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card shadow-sm mb-5">
+
+            <div class="card-body">
+
+                <div class="salario-box p-4">
+
+                    <div class="row align-items-center">
+
+                        <div class="col-md-7">
+
+                            <h3 class="mb-2">
+                                Mercado de trabalho
+                            </h3>
+
+                            <p class="mb-0">
+                                Dados salariais obtidos
+                                diretamente do banco de dados.
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-5 text-md-end mt-3 mt-md-0">
+
+                            <div class="salario-valor">
+                                ${formatarSalario(salario)}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="bg-light p-4 mt-4 rounded mercado-trabalho">
+
+                    <h4>
+                        Informações profissionais
+                    </h4>
+
+                    ${
+                        cargo
+                        ? `
+                            <p>
+                                <strong>Cargo utilizado como referência:</strong>
+                                ${cargo}
+                            </p>
+                        `
+                        : ''
+                    }
+
+                    ${
+                        referencia
+                        ? `
+                            <p>
+                                <strong>Fonte registrada no banco:</strong>
+                                ${referencia}
+                            </p>
+                        `
+                        : ''
+                    }
+
+                    <p class="mb-0">
+                        ${gerarAnaliseMercado(
+                            curso,
+                            salario,
+                            mediaConcorrencia,
+                            mediaNota
+                        )}
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+    `;
+
+    const selectCota =
+        document.querySelector(
+            '#cotaCursoInicial'
+        );
+
+    const tipos =
+        obterCotas(curso);
+
+    tipos.forEach(tipo => {
+
+        const option =
+            document.createElement('option');
+
+        option.value =
+            tipo;
+
+        option.textContent =
+            nomesCotas[tipo] || tipo;
+
+        selectCota.appendChild(
+            option
+        );
+
+    });
+
+    selectCota.addEventListener(
+        'change',
+        () => {
+
+            atualizarTabelaCurso(
+                curso,
+                selectCota.value
+            );
+
+        }
+    );
+
+    if (tipos.length > 0) {
+
+        atualizarTabelaCurso(
+            curso,
+            tipos[0]
+        );
+
+    }
+
+    graficoCursoAtual =
+        criarGraficoCurso(
+            curso,
+            'graficoCursoInicial'
+        );
+
+    document
+        .querySelector(
+            '#btnAnaliseCursoInicial'
+        )
+        .addEventListener(
+            'click',
+            () => {
+
+                abrirModalAnalise(
+                    curso
+                );
+
+            }
+        );
+}
+
+function gerarAnaliseMercado(
+    curso,
+    salario,
+    mediaConcorrencia,
+    mediaNota
+) {
+
+    const nome =
+        String(
+            curso.nome || ''
+        ).toLowerCase();
+
+    if (
+        nome.includes('medicina')
+    ) {
+
+        return `
+            A formação apresenta um cenário profissional
+            de alta valorização. O salário médio registrado
+            no banco de dados é de
+            <strong>${formatarSalario(salario)}</strong>.
+            Ao mesmo tempo, a concorrência média registrada
+            é de aproximadamente
+            <strong>${mediaConcorrencia.toFixed(2)}
+            candidatos por vaga</strong>.
+            Isso mostra uma combinação interessante:
+            trata-se de uma carreira que exige um investimento
+            elevado de preparação para o ingresso, mas que
+            apresenta forte valorização profissional.
+            A procura pelo curso também pode ser relacionada
+            à percepção de estabilidade e às possibilidades
+            de atuação em diferentes áreas da saúde.
+        `;
+
+    }
+
+    let texto = '';
+
+    if (
+        salario !== null &&
+        salario > 0
+    ) {
+
+        texto += `
+            O curso apresenta salário médio atual de
+            <strong>${formatarSalario(salario)}</strong>.
+        `;
+
+    } else {
+
+        texto += `
+            O banco de dados não apresenta um salário médio
+            atual para este curso.
+        `;
+
+    }
+
+    if (
+        mediaConcorrencia > 0
+    ) {
+
+        texto += `
+            A concorrência média registrada é de
+            <strong>${mediaConcorrencia.toFixed(2)}
+            candidatos por vaga</strong>, indicando o nível
+            de disputa enfrentado pelos candidatos.
+        `;
+
+    }
+
+    if (
+        mediaNota > 0
+    ) {
+
+        texto += `
+            A média das notas mínimas registradas é de
+            <strong>${mediaNota.toFixed(2)}</strong>.
+            Assim, o curso combina um determinado nível
+            de exigência para ingresso com uma perspectiva
+            profissional que deve ser analisada em conjunto
+            com o salário médio, a área de atuação e a
+            demanda por profissionais.
+        `;
+
+    }
+
+    texto += `
+        De maneira geral, os dados permitem observar que
+        escolher um curso não depende exclusivamente do
+        salário. A concorrência para ingresso, a nota mínima,
+        a evolução histórica e as características do mercado
+        de trabalho devem ser consideradas conjuntamente.
+    `;
+
+    return texto;
+}
+
+function atualizarTabelaCurso(
+    curso,
+    tipo
+) {
+
+    const tbody =
+        document.querySelector(
+            '#tbodyCursoInicial'
+        );
+
+    if (!tbody) return;
+
+    tbody.innerHTML = '';
+
+    curso.cotas
+        .slice()
+        .sort(
+            (a, b) =>
+                a.ano - b.ano
+        )
+        .forEach(anoDados => {
+
+            const cota =
+                anoDados.tipoCota?.find(
+                    item =>
+                        item.tipo === tipo
+                );
+
+            const tr =
+                document.createElement('tr');
+
+            if (!cota) {
+
+                tr.innerHTML = `
+
+                    <td>
+                        ${anoDados.ano}
+                    </td>
+
+                    <td colspan="4">
+                        Dados não disponíveis
+                    </td>
+
+                `;
+
+            } else {
+
+                const concorrencia =
+                    cota.vagas > 0
+                        ? (
+                            cota.candidatos /
+                            cota.vagas
+                        ).toFixed(2)
+                        : '-';
+
+                tr.innerHTML = `
+
+                    <td>
+                        ${anoDados.ano}
+                    </td>
+
+                    <td>
+                        ${cota.candidatos}
+                    </td>
+
+                    <td>
+                        ${cota.vagas}
+                    </td>
+
+                    <td>
+                        ${concorrencia}
+                    </td>
+
+                    <td>
+                        ${
+                            cota.notaMinima > 0
+                            ? cota.notaMinima
+                            : '-'
+                        }
+                    </td>
+
+                `;
+
+            }
+
+            tbody.appendChild(tr);
+
+        });
+
+}
+
+function criarGraficoCurso(
+    curso,
+    canvasId
+) {
+
+    const canvas =
+        document.getElementById(
+            canvasId
+        );
+
+    if (!canvas) return null;
+
+    const anos = [
+        ...new Set(
+            curso.cotas.map(
+                item =>
+                    item.ano
+            )
+        )
+    ].sort(
+        (a, b) =>
+            a - b
+    );
+
+    const tipos =
+        obterCotas(curso);
+
+    const datasets =
+        tipos.map(tipo => {
+
+            const dados =
+                anos.map(ano => {
+
+                    const anoDados =
+                        curso.cotas.find(
+                            item =>
+                                item.ano === ano
+                        );
+
+                    const cota =
+                        anoDados?.tipoCota?.find(
+                            item =>
+                                item.tipo === tipo
+                        );
+
+                    if (
+                        !cota ||
+                        cota.vagas <= 0
+                    ) {
+                        return null;
+                    }
+
+                    return Number(
+                        (
+                            cota.candidatos /
+                            cota.vagas
+                        ).toFixed(2)
+                    );
+
+                });
+
+            return {
+
+                label:
+                    nomesCotas[tipo] ||
+                    tipo,
+
+                data:
+                    dados,
+
+                borderWidth:
+                    2,
+
+                tension:
+                    0.2
+
+            };
+
+        });
+
+    return new Chart(
+        canvas,
+        {
+            type: 'line',
+
+            data: {
+
+                labels:
+                    anos,
+
+                datasets:
+                    datasets
+
+            },
+
+            options: {
+
+                responsive:
+                    true,
+
+                maintainAspectRatio:
+                    false,
+
+                plugins: {
+
+                    legend: {
+
+                        position:
+                            'bottom'
+
+                    }
+
+                },
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero:
+                            true,
+
+                        title: {
+
+                            display:
+                                true,
+
+                            text:
+                                'Candidatos por vaga'
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+    );
+}
+
+btnAbrirComparacao.addEventListener(
+    'click',
+    () => {
+
+        homeView.classList.add(
+            'd-none'
+        );
+
+        comparisonView.classList.remove(
+            'd-none'
+        );
+
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+
+    }
+);
+
+btnVoltar.addEventListener(
+    'click',
+    () => {
+
+        comparisonView.classList.add(
+            'd-none'
+        );
+
+        homeView.classList.remove(
+            'd-none'
+        );
+
+        cursoInicial.value = '';
+
+        cursoSelecionado.innerHTML = '';
+
+        cursoSelecionado.classList.remove(
+            'ativo'
+        );
+
+        perguntasHome.style.display =
+            'block';
+
+        if (graficoComparacaoAtual) {
+
+            graficoComparacaoAtual.destroy();
+
+            graficoComparacaoAtual = null;
+
+        }
+
+        comparisonCharts.innerHTML = '';
+
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+
+    }
+);
+
+btnGerarComparacao.addEventListener(
+    'click',
+    () => {
+
+        const id1 =
+            curso1Select.value;
+
+        const id2 =
+            curso2Select.value;
+
+        const tipo =
+            cotaComparacao.value;
+
+        if (!id1 || !id2) {
+
+            alert(
+                'Selecione os dois cursos.'
+            );
+
+            return;
+
+        }
+
+        if (id1 === id2) {
+
+            alert(
+                'Selecione dois cursos diferentes.'
+            );
+
+            return;
+
+        }
+
+        const curso1 =
+            db.cursos.find(
+                curso =>
+                    curso.id == id1
+            );
+
+        const curso2 =
+            db.cursos.find(
+                curso =>
+                    curso.id == id2
+            );
+
+        gerarGraficoComparacao(
+            curso1,
+            curso2,
+            tipo
+        );
+
+    }
+);
+
+function gerarGraficoComparacao(
+    curso1,
+    curso2,
+    tipo
+) {
+
+    if (graficoComparacaoAtual) {
+
+        graficoComparacaoAtual.destroy();
+
+        graficoComparacaoAtual = null;
+
+    }
+
+    comparisonCharts.innerHTML = `
+
+        <div class="col-12">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <h3 class="text-center mb-4">
+                        ${nomesCotas[tipo] || tipo}
+                    </h3>
+
+                    <div class="grafico-comparacao">
+
+                        <canvas
+                            id="graficoComparacao"
+                        ></canvas>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    `;
+
+    const anos = [
+        ...new Set(
+            [
+                ...curso1.cotas.map(
+                    item =>
+                        item.ano
+                ),
+
+                ...curso2.cotas.map(
+                    item =>
+                        item.ano
+                )
+            ]
+        )
+    ].sort(
+        (a, b) =>
+            a - b
+    );
+
+    function obterDados(curso) {
+
+        return anos.map(ano => {
+
+            const anoDados =
+                curso.cotas.find(
+                    item =>
+                        item.ano === ano
+                );
+
+            const cota =
+                anoDados?.tipoCota?.find(
+                    item =>
+                        item.tipo === tipo
+                );
+
+            if (
+                !cota ||
+                cota.vagas <= 0
+            ) {
+                return null;
+            }
+
+            return Number(
+                (
+                    cota.candidatos /
+                    cota.vagas
+                ).toFixed(2)
+            );
+
+        });
+
+    }
+
+    graficoComparacaoAtual =
+        new Chart(
+            document.querySelector(
+                '#graficoComparacao'
+            ),
+            {
+                type: 'line',
+
+                data: {
+
+                    labels:
+                        anos,
+
+                    datasets: [
+
+                        {
+
+                            label:
+                                curso1.nome,
+
+                            data:
+                                obterDados(
+                                    curso1
+                                ),
+
+                            borderColor:
+                                coresComparacao[0],
+
+                            backgroundColor:
+                                coresComparacao[0],
+
+                            borderWidth:
+                                3,
+
+                            tension:
+                                0.2
+
+                        },
+
+                        {
+
+                            label:
+                                curso2.nome,
+
+                            data:
+                                obterDados(
+                                    curso2
+                                ),
+
+                            borderColor:
+                                coresComparacao[1],
+
+                            backgroundColor:
+                                coresComparacao[1],
+
+                            borderWidth:
+                                3,
+
+                            tension:
+                                0.2
+
+                        }
+
+                    ]
+
+                },
+
+                options: {
+
+                    responsive:
+                        true,
+
+                    maintainAspectRatio:
+                        false,
+
+                    plugins: {
+
+                        legend: {
+
+                            position:
+                                'bottom'
+
+                        }
+
+                    },
+
+                    scales: {
+
+                        y: {
+
+                            beginAtZero:
+                                true,
+
+                            title: {
+
+                                display:
+                                    true,
+
+                                text:
+                                    'Candidatos por vaga'
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+}
+
+function gerarAnaliseMedicina(curso) {
+
+    const mediaCandidatos =
+        calcularMediaCandidatos(curso);
+
+    const maior =
+        maiorConcorrencia(curso);
+
+    const salario =
+        obterSalario(curso);
+
+    let texto = `
+
+        <h5>Concorrência geral</h5>
+
+        <p>
+            Para começar a análise, podemos observar as
+            médias que obtivemos a partir de algumas relações.
+            Então, primeiramente, temos a média total de
+            candidatos que se inscreveram para o curso de
+            Medicina durante os dez últimos anos (2016-2025).
+        </p>
+
+        <p>
+            A partir dos dados disponíveis no banco de dados,
+            podemos observar a dimensão da procura pelo curso
+            e sua posição entre os cursos analisados. A elevada
+            procura demonstra que Medicina apresenta um dos
+            cenários mais competitivos para ingresso.
+        </p>
+    `;
+
+    if (
+        mediaCandidatos > 0
+    ) {
+
+        texto += `
+
+            <p>
+                A média calculada a partir dos dados disponíveis
+                é de aproximadamente
+                <strong>
+                    ${mediaCandidatos.toLocaleString(
+                        'pt-BR',
+                        {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        }
+                    )}
+                    candidatos por ano
+                </strong>.
+                Esse valor permite dimensionar o tamanho da
+                procura pelo curso durante o período analisado.
+            </p>
+
+        `;
+
+    }
+
+    if (maior) {
+
+        texto += `
+
+            <p>
+                O maior valor de concorrência encontrado nos
+                dados corresponde ao ano de
+                <strong>${maior.ano}</strong>,
+                quando foram registrados
+                <strong>${maior.valor.toFixed(2)}
+                candidatos por vaga</strong>
+                na cota
+                <strong>
+                    ${nomesCotas[maior.tipo] || maior.tipo}
+                </strong>.
+                Nesse registro foram observados
+                <strong>${maior.candidatos} candidatos</strong>
+                para
+                <strong>${maior.vagas} vagas</strong>.
+            </p>
+
+        `;
+
+    }
+
+    texto += `
+
+        <h5>Concorrência por cota</h5>
+
+        <p>
+            Outra análise importante é observar a concorrência
+            de acordo com cada tipo de cota. Essa divisão é
+            importante porque os diferentes grupos de ingresso
+            apresentam números de candidatos e de vagas
+            distintos ao longo dos anos.
+        </p>
+    `;
+
+    const mediasCotas = {};
+
+    obterCotas(curso).forEach(tipo => {
+
+        const valores = [];
+
+        curso.cotas.forEach(ano => {
+
+            const cota =
+                ano.tipoCota?.find(
+                    item =>
+                        item.tipo === tipo
+                );
+
+            if (
+                cota &&
+                Number(cota.vagas) > 0
+            ) {
+
+                valores.push(
+                    Number(
+                        cota.candidatos
+                    ) /
+                    Number(
+                        cota.vagas
+                    )
+                );
+
+            }
+
+        });
+
+        if (valores.length) {
+
+            mediasCotas[tipo] =
+                valores.reduce(
+                    (a, b) =>
+                        a + b,
+                    0
+                ) /
+                valores.length;
+
+        }
+
+    });
+
+    const rankingCotas =
+        Object.entries(
+            mediasCotas
+        ).sort(
+            (a, b) =>
+                b[1] - a[1]
+        );
+
+    if (rankingCotas.length) {
+
+        texto += `
+            <p>
+                Considerando os dados disponíveis, a ordem
+                média de concorrência entre as cotas é:
+            </p>
+
+            <ol>
+        `;
+
+        rankingCotas.forEach(
+            ([tipo, media]) => {
+
+                texto += `
+                    <li>
+                        <strong>
+                            ${nomesCotas[tipo] || tipo}
+                        </strong>:
+                        ${media.toFixed(2)}
+                        candidatos por vaga.
+                    </li>
+                `;
+
+            }
+        );
+
+        texto += `
+            </ol>
+        `;
+
+    }
+
+    texto += `
+
+        <p>
+            A cota Universal apresenta destaque por estar
+            disponível durante todo o período analisado,
+            permitindo uma comparação histórica mais ampla.
+            A diferença entre as linhas das cotas também
+            demonstra que a concorrência não é distribuída
+            igualmente entre os grupos de ingresso.
+        </p>
+
+        <p>
+            Em determinados anos, algumas modalidades não
+            foram ofertadas. Por isso, a média de cada cota
+            deve ser interpretada considerando apenas os anos
+            em que aquela modalidade efetivamente esteve
+            disponível.
+        </p>
+
+        <h5>Notas mínimas</h5>
+
+        <p>
+            Agora podemos analisar as notas mínimas ao longo
+            dos anos. É importante dividir essa análise por
+            cota específica, pois existe uma diferença
+            significativa entre os desempenhos mínimos
+            necessários para ingresso em cada modalidade.
+        </p>
+
+        <p>
+            A pontuação máxima considerada no vestibular é de
+            <strong>7000 pontos</strong>. Portanto, uma nota
+            mínima elevada representa uma exigência acadêmica
+            significativa para conseguir uma vaga naquela
+            modalidade.
+        </p>
+    `;
+
+    const mediasNotas = {};
+
+    obterCotas(curso).forEach(tipo => {
+
+        const notas = [];
+
+        curso.cotas.forEach(ano => {
+
+            const cota =
+                ano.tipoCota?.find(
+                    item =>
+                        item.tipo === tipo
+                );
+
+            if (
+                cota &&
+                Number(cota.notaMinima) > 0
+            ) {
+
+                notas.push(
+                    Number(
+                        cota.notaMinima
+                    )
+                );
+
+            }
+
+        });
+
+        if (notas.length) {
+
+            mediasNotas[tipo] =
+                notas.reduce(
+                    (a, b) =>
+                        a + b,
+                    0
+                ) /
+                notas.length;
+
+        }
+
+    });
+
+    const rankingNotas =
+        Object.entries(
+            mediasNotas
+        ).sort(
+            (a, b) =>
+                b[1] - a[1]
+        );
+
+    if (rankingNotas.length) {
+
+        texto += `
+
+            <p>
+                A partir dos dados disponíveis no banco, a
+                média das notas mínimas por cota pode ser
+                organizada da seguinte maneira:
+            </p>
+
+            <ol>
+        `;
+
+        rankingNotas.forEach(
+            ([tipo, media]) => {
+
+                texto += `
+                    <li>
+                        <strong>
+                            ${nomesCotas[tipo] || tipo}
+                        </strong>:
+                        ${media.toLocaleString(
+                            'pt-BR',
+                            {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2
+                            }
+                        )}
+                        pontos.
+                    </li>
+                `;
+
+            }
+        );
+
+        texto += `
+            </ol>
+        `;
+
+    }
+
+    texto += `
+
+        <p>
+            A partir dessa comparação, é possível perceber
+            que a cota Universal apresenta uma exigência
+            particularmente elevada. Uma possível hipótese
+            para essa diferença envolve fatores relacionados
+            à preparação escolar dos candidatos, ao acesso
+            a recursos educacionais e às desigualdades
+            existentes entre diferentes trajetórias escolares.
+        </p>
+
+        <p>
+            Na cota pública, a diferença em relação à
+            Universal também pode ser discutida a partir
+            das dificuldades históricas enfrentadas pelo
+            ensino público. Entretanto, a diferença observada
+            nos dados não deve ser interpretada como resultado
+            de uma única causa, pois fatores econômicos,
+            sociais, educacionais e familiares podem atuar
+            conjuntamente.
+        </p>
+
+        <h5>Medicina e o contexto da pandemia</h5>
+
+        <p>
+            Uma hipótese interessante para interpretar as
+            oscilações observadas nos anos de 2020 e 2021
+            é o impacto da pandemia de COVID-19. A crise
+            sanitária aumentou a visibilidade das profissões
+            da área da saúde e pode ter reforçado, entre parte
+            dos estudantes, a percepção de que Medicina seria
+            uma carreira associada à estabilidade e à elevada
+            demanda profissional.
+        </p>
+
+        <p>
+            O ano de 2021 merece atenção especial porque,
+            mesmo sem necessariamente apresentar o maior
+            número absoluto de inscritos, a relação entre
+            candidatos e vagas pode alcançar valores muito
+            elevados quando o número de vagas diminui.
+            Isso demonstra por que analisar apenas a quantidade
+            de candidatos pode levar a uma interpretação
+            equivocada da concorrência.
+        </p>
+
+        <h5>Mercado de trabalho</h5>
+
+        <p>
+            Do ponto de vista profissional, Medicina possui
+            uma característica particular: a análise da
+            remuneração não deve ser feita isoladamente.
+            O mercado médico possui diferentes possibilidades
+            de atuação, como atendimento clínico, hospitais,
+            unidades de saúde, consultórios, pesquisa,
+            docência e especialidades médicas.
+        </p>
+
+        <p>
+            O salário médio registrado no banco de dados é de
+            <strong>${formatarSalario(salario)}</strong>.
+            Esse dado reforça a percepção de valorização
+            financeira da carreira, mas deve ser interpretado
+            junto aos custos e ao tempo necessários para a
+            formação profissional.
+        </p>
+
+        <p>
+            Portanto, o cenário apresentado pelos dados revela
+            um curso com forte procura, elevada exigência para
+            ingresso e perspectivas profissionais relevantes.
+            Ao mesmo tempo, justamente por apresentar uma
+            concorrência tão elevada, a escolha por Medicina
+            exige uma preparação acadêmica consistente e uma
+            análise cuidadosa da trajetória profissional.
+        </p>
+
+        <h5>Conclusão</h5>
+
+        <p>
+            Em síntese, os dados mostram que Medicina combina
+            elevada procura, forte concorrência, notas mínimas
+            altas e um mercado de trabalho de grande relevância.
+            A análise das cotas também evidencia diferenças
+            importantes entre os grupos de ingresso.
+        </p>
+
+        <p>
+            Dessa forma, não basta observar qual ano teve mais
+            candidatos. É necessário relacionar candidatos,
+            vagas, concorrência, modalidade de ingresso e nota
+            mínima. Quando essas informações são analisadas em
+            conjunto, conseguimos compreender melhor não apenas
+            a dificuldade de ingresso, mas também algumas das
+            características sociais e educacionais presentes
+            no processo seletivo.
+        </p>
+    `;
+
+    return texto;
+}
+
+function gerarAnaliseCurso(curso) {
+
+    const salario =
+        obterSalario(curso);
+
+    const mediaConcorrencia =
+        calcularMediaConcorrencia(curso);
+
+    const mediaCandidatos =
+        calcularMediaCandidatos(curso);
+
+    const mediaNota =
+        calcularMediaNota(curso);
+
+    const maior =
+        maiorConcorrencia(curso);
+
+    const nome =
+        String(
+            curso.nome || ''
+        ).toLowerCase();
+
+    if (
+        nome.includes('medicina')
+    ) {
+
+        return gerarAnaliseMedicina(
+            curso
+        );
+
+    }
+
+    let texto = '';
+
+    texto += `
+
+        <h5>Visão geral</h5>
+
+        <p>
+            A análise de ${curso.nome} permite observar
+            simultaneamente a procura pelo curso, o nível
+            de concorrência, as notas mínimas e as perspectivas
+            relacionadas ao mercado de trabalho.
+        </p>
+    `;
+
+    if (
+        mediaCandidatos > 0
+    ) {
+
+        texto += `
+
+            <p>
+                A média de candidatos registrada nos dados
+                disponíveis é de aproximadamente
+                <strong>
+                    ${mediaCandidatos.toFixed(2)}
+                    candidatos por ano
+                </strong>.
+            </p>
+        `;
+
+    }
+
+    if (
+        mediaConcorrencia > 0
+    ) {
+
+        texto += `
+
+            <p>
+                Considerando as modalidades disponíveis,
+                a concorrência média registrada é de
+                <strong>
+                    ${mediaConcorrencia.toFixed(2)}
+                    candidatos por vaga
+                </strong>.
+                Esse indicador ajuda a dimensionar a
+                dificuldade de ingresso no curso.
+            </p>
+        `;
+
+    }
+
+    if (maior) {
+
+        texto += `
+
+            <p>
+                O maior índice de concorrência encontrado
+                foi de
+                <strong>
+                    ${maior.valor.toFixed(2)}
+                    candidatos por vaga
+                </strong>,
+                registrado em ${maior.ano}, na modalidade
+                ${nomesCotas[maior.tipo] || maior.tipo}.
+            </p>
+        `;
+
+    }
+
+    if (
+        mediaNota > 0
+    ) {
+
+        texto += `
+
+            <h5>Notas mínimas</h5>
+
+            <p>
+                A média das notas mínimas registradas para
+                o curso é de
+                <strong>
+                    ${mediaNota.toFixed(2)}
+                </strong>
+                pontos. Considerando a pontuação máxima de
+                7000 pontos, esse indicador permite estimar
+                o nível de desempenho necessário para disputar
+                uma vaga.
+            </p>
+        `;
+
+    }
+
+    texto += `
+
+        <h5>Mercado de trabalho</h5>
+
+        <p>
+            O mercado de trabalho deve ser analisado como
+            parte de um conjunto de indicadores. A remuneração
+            é um deles, mas não é o único fator que determina
+            a atratividade de uma profissão.
+        </p>
+    `;
+
+    if (
+        salario !== null
+    ) {
+
+        texto += `
+
+            <p>
+                O salário médio atual registrado no banco
+                de dados é de
+                <strong>
+                    ${formatarSalario(salario)}
+                </strong>.
+                Esse valor representa um importante indicador
+                econômico para analisar a carreira, mas deve
+                ser interpretado em conjunto com a concorrência
+                de ingresso, a formação necessária e as
+                oportunidades de atuação.
+            </p>
+        `;
+
+    } else {
+
+        texto += `
+
+            <p>
+                Não foi encontrado um salário médio atual
+                para este curso no banco de dados.
+            </p>
+        `;
+
+    }
+
+    texto += `
+
+        <p>
+            Quando colocamos lado a lado a dificuldade para
+            ingressar e a perspectiva profissional, podemos
+            perceber que um curso muito concorrido não é
+            necessariamente aquele que apresenta a maior
+            remuneração. Da mesma forma, uma remuneração
+            elevada não significa necessariamente baixa
+            concorrência no vestibular.
+        </p>
+
+        <h5>Conclusão</h5>
+
+        <p>
+            Assim, a melhor interpretação dos dados ocorre
+            quando concorrência, notas mínimas, evolução
+            histórica e mercado de trabalho são observados
+            conjuntamente. Esse conjunto permite construir
+            uma visão mais ampla sobre as características
+            acadêmicas e profissionais de ${curso.nome}.
+        </p>
+    `;
+
+    return texto;
+}
+
+function abrirModalAnalise(curso) {
+
+    document.querySelector(
+        '#modalTitulo'
+    ).textContent =
+        `Análise - ${curso.nome}`;
+
+    document.querySelector(
+        '#modalConteudo'
+    ).innerHTML = `
+
+        <div class="analise-texto">
+
+            ${gerarAnaliseCurso(curso)}
+
+        </div>
+    `;
+
+    const modal =
+        new bootstrap.Modal(
+            document.querySelector(
+                '#modalAnalise'
+            )
+        );
+
+    modal.show();
+}
+
+</script>
+
+</body>
+</html>
