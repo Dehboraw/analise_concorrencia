@@ -91,6 +91,7 @@
         }
 
         @media (max-width: 768px) {
+
             .grafico-container,
             .grafico-comparacao {
                 width: 100%;
@@ -107,13 +108,19 @@
 <body>
 
 <header class="p-3 bg-dark text-white">
+
     <div class="container-fluid">
+
         <div class="d-flex justify-content-center">
+
             <span class="fs-4 fw-bold">
                 Análise de Concorrência UEPG
             </span>
+
         </div>
+
     </div>
+
 </header>
 
 <main class="container py-5">
@@ -675,10 +682,7 @@ let graficoComparacaoAtual = null;
 
 function obterCotas(curso) {
 
-    if (
-        !curso ||
-        !Array.isArray(curso.cotas)
-    ) {
+    if (!curso || !curso.cotas) {
         return [];
     }
 
@@ -686,7 +690,7 @@ function obterCotas(curso) {
         ...new Set(
             curso.cotas.flatMap(
                 ano =>
-                    Array.isArray(ano.tipoCota)
+                    ano.tipoCota
                         ? ano.tipoCota.map(
                             cota => cota.tipo
                         )
@@ -698,78 +702,46 @@ function obterCotas(curso) {
 
 function obterSalario(curso) {
 
-    if (
-        !curso ||
-        !Array.isArray(curso.salariosAtuais) ||
-        curso.salariosAtuais.length === 0
-    ) {
-        return null;
-    }
-
     const salario =
-        curso.salariosAtuais[0]?.salario;
+        curso.salarioMedioAtual ??
+        curso.salarioMedio ??
+        curso.salario ??
+        curso.salario_medio ??
+        null;
 
     if (
-        salario === undefined ||
         salario === null ||
+        salario === undefined ||
         salario === ''
     ) {
         return null;
     }
 
+    if (typeof salario === 'number') {
+        return salario;
+    }
+
     const valor =
-        Number(salario);
+        String(salario)
+            .replace(/[R$\s]/g, '')
+            .replace(/\./g, '')
+            .replace(',', '.');
 
-    if (Number.isNaN(valor)) {
-        return null;
-    }
+    const numero =
+        Number(valor);
 
-    return valor;
-}
-
-function obterCargo(curso) {
-
-    if (
-        !curso ||
-        !Array.isArray(curso.salariosAtuais) ||
-        curso.salariosAtuais.length === 0
-    ) {
-        return null;
-    }
-
-    return (
-        curso.salariosAtuais[0]?.cargo ||
-        null
-    );
-}
-
-function obterReferenciaSalario(curso) {
-
-    if (
-        !curso ||
-        !Array.isArray(curso.salariosAtuais) ||
-        curso.salariosAtuais.length === 0
-    ) {
-        return null;
-    }
-
-    return (
-        curso.salariosAtuais[0]?.referencia ||
-        null
-    );
+    return Number.isNaN(numero)
+        ? null
+        : numero;
 }
 
 function formatarSalario(valor) {
 
-    if (
-        valor === null ||
-        valor === undefined ||
-        Number.isNaN(Number(valor))
-    ) {
+    if (valor === null) {
         return 'Não informado';
     }
 
-    return Number(valor).toLocaleString(
+    return valor.toLocaleString(
         'pt-BR',
         {
             style: 'currency',
@@ -782,22 +754,13 @@ function calcularMediaConcorrencia(curso) {
 
     const valores = [];
 
-    if (
-        !curso ||
-        !Array.isArray(curso.cotas)
-    ) {
+    if (!curso.cotas) {
         return 0;
     }
 
     curso.cotas.forEach(ano => {
 
-        if (
-            !Array.isArray(
-                ano.tipoCota
-            )
-        ) {
-            return;
-        }
+        if (!ano.tipoCota) return;
 
         ano.tipoCota.forEach(cota => {
 
@@ -831,22 +794,13 @@ function calcularMediaCandidatos(curso) {
 
     const valores = [];
 
-    if (
-        !curso ||
-        !Array.isArray(curso.cotas)
-    ) {
+    if (!curso.cotas) {
         return 0;
     }
 
     curso.cotas.forEach(ano => {
 
-        if (
-            !Array.isArray(
-                ano.tipoCota
-            )
-        ) {
-            return;
-        }
+        if (!ano.tipoCota) return;
 
         let total = 0;
 
@@ -855,11 +809,9 @@ function calcularMediaCandidatos(curso) {
             if (
                 Number(cota.candidatos) >= 0
             ) {
-
                 total += Number(
                     cota.candidatos
                 );
-
             }
 
         });
@@ -884,22 +836,13 @@ function calcularMediaNota(curso) {
 
     const notas = [];
 
-    if (
-        !curso ||
-        !Array.isArray(curso.cotas)
-    ) {
+    if (!curso.cotas) {
         return 0;
     }
 
     curso.cotas.forEach(ano => {
 
-        if (
-            !Array.isArray(
-                ano.tipoCota
-            )
-        ) {
-            return;
-        }
+        if (!ano.tipoCota) return;
 
         ano.tipoCota.forEach(cota => {
 
@@ -912,9 +855,7 @@ function calcularMediaNota(curso) {
                 !Number.isNaN(nota) &&
                 nota > 0
             ) {
-
                 notas.push(nota);
-
             }
 
         });
@@ -935,22 +876,13 @@ function maiorConcorrencia(curso) {
 
     let maior = null;
 
-    if (
-        !curso ||
-        !Array.isArray(curso.cotas)
-    ) {
+    if (!curso.cotas) {
         return null;
     }
 
     curso.cotas.forEach(ano => {
 
-        if (
-            !Array.isArray(
-                ano.tipoCota
-            )
-        ) {
-            return;
-        }
+        if (!ano.tipoCota) return;
 
         ano.tipoCota.forEach(cota => {
 
@@ -1110,12 +1042,6 @@ function criarConteudoCurso(curso) {
     const salario =
         obterSalario(curso);
 
-    const cargo =
-        obterCargo(curso);
-
-    const referencia =
-        obterReferenciaSalario(curso);
-
     const mediaConcorrencia =
         calcularMediaConcorrencia(curso);
 
@@ -1248,8 +1174,8 @@ function criarConteudoCurso(curso) {
                             </h3>
 
                             <p class="mb-0">
-                                Dados salariais obtidos
-                                diretamente do banco de dados.
+                                Estimativa de salário médio atual
+                                associada ao curso.
                             </p>
 
                         </div>
@@ -1266,33 +1192,11 @@ function criarConteudoCurso(curso) {
 
                 </div>
 
-                <div class="bg-light p-4 mt-4 rounded mercado-trabalho">
+                <div class="mercado-trabalho bg-light p-4 mt-4 rounded">
 
                     <h4>
-                        Informações profissionais
+                        Perspectiva profissional
                     </h4>
-
-                    ${
-                        cargo
-                        ? `
-                            <p>
-                                <strong>Cargo utilizado como referência:</strong>
-                                ${cargo}
-                            </p>
-                        `
-                        : ''
-                    }
-
-                    ${
-                        referencia
-                        ? `
-                            <p>
-                                <strong>Fonte registrada no banco:</strong>
-                                ${referencia}
-                            </p>
-                        `
-                        : ''
-                    }
 
                     <p class="mb-0">
                         ${gerarAnaliseMercado(
@@ -1549,11 +1453,7 @@ function atualizarTabelaCurso(
                     </td>
 
                     <td>
-                        ${
-                            cota.notaMinima > 0
-                            ? cota.notaMinima
-                            : '-'
-                        }
+                        ${cota.notaMinima ?? '-'}
                     </td>
 
                 `;
@@ -1749,16 +1649,6 @@ btnVoltar.addEventListener(
 
         perguntasHome.style.display =
             'block';
-
-        if (graficoComparacaoAtual) {
-
-            graficoComparacaoAtual.destroy();
-
-            graficoComparacaoAtual = null;
-
-        }
-
-        comparisonCharts.innerHTML = '';
 
         window.scrollTo({
             top: 0,
