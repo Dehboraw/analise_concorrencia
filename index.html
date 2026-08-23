@@ -4,334 +4,2315 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gráfico - Candidatos por Vaga</title> 
+
+    <title>Análise concorrência UEPG</title>
+
     <link rel="stylesheet" href="style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
 </head>
 
-<body> 
-    <header class="p-3 text-bg-dark">
-        <span class="fs-4 text-white fw-bold">Análise concorrência UEPG</span>
-    </header>
+<body>
 
-    <div class="card border-dark mb-3" style="margin: 20px;">
-        <div class="toast-container position-fixed bottom-0 end-0 p-3">
-            <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="toast-header">
-                    <strong class="me-auto">Dica</strong>
-                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>
-                <div class="toast-body">
-                    Para visualizar a concorrência de uma cota específica, clique naquelas que deseja ocultar.
-                </div>
+<header class="p-3 text-bg-dark">
+    <span class="fs-4 text-white fw-bold">
+        Análise concorrência UEPG
+    </span>
+</header>
+
+<div class="card border-dark m-3">
+
+    <!-- TOAST -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div
+            id="liveToast"
+            class="toast"
+            role="alert"
+            aria-live="assertive"
+            aria-atomic="true"
+        >
+            <div class="toast-header">
+                <strong class="me-auto">Dica</strong>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="toast"
+                    aria-label="Close"
+                ></button>
+            </div>
+
+            <div class="toast-body">
+                Para visualizar apenas uma cota, utilize o gráfico e a tabela do curso.
             </div>
         </div>
+    </div>
 
-        <div class="dropdown p-3">
-          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Cursos
-          </button>
-          <ul class="dropdown-menu dropdown-menu-dark">
-            <li><a class="dropdown-item active" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
+
+    <!-- CONTROLES -->
+    <div class="p-3">
+
+        <div class="row g-2 align-items-center">
+
+            <!-- DROPDOWN -->
+            <div class="col-md-6">
+
+                <div class="dropdown">
+
+                    <button
+                        id="cursoDropdownButton"
+                        class="btn btn-secondary dropdown-toggle w-100"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                    >
+                        Todos os cursos
+                    </button>
+
+                    <ul
+                        id="dropdownMenu"
+                        class="dropdown-menu dropdown-menu-dark w-100"
+                    >
+                    </ul>
+
+                </div>
+
+            </div>
+
+
+            <!-- BOTÃO COMPARAR -->
+            <div class="col-md-6">
+
+                <button
+                    id="btnComparar"
+                    class="btn btn-primary w-100"
+                >
+                    <i class="bi bi-bar-chart"></i>
+                    Comparar cursos
+                </button>
+
+            </div>
+
         </div>
 
-        <div class="container mt-4">
-            <div id="charts" class="row"></div>
+    </div>
+
+
+    <!-- ÁREA NORMAL -->
+    <div id="normalView">
+
+        <!-- GRÁFICOS -->
+        <div class="container-fluid mt-4">
+
+            <div
+                id="charts"
+                class="row"
+            ></div>
+
         </div>
 
-        <div class="container mt-4">
-            <div id="tables-container"></div>
+
+        <!-- TABELAS -->
+        <div class="container-fluid mt-4">
+
+            <div
+                id="tables-container"
+                class="table-responsive"
+            ></div>
+
         </div>
 
-        <div class="container mt-4 mb-5">
-            <div class="accordion rounded shadow" id="accordionExample" 
-                 style="--bs-accordion-bg: #212529; 
-                        --bs-accordion-color: #fff; 
-                        --bs-accordion-active-bg: #2c3034; 
-                        --bs-accordion-active-color: #fff; 
-                        --bs-accordion-btn-color: #fff;
-                        --bs-accordion-btn-bg: #212529;
-                        --bs-accordion-border-color: #373b3e;
-                        --bs-accordion-btn-icon: url(&quot;data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e&quot;);
-                        --bs-accordion-btn-active-icon: url(&quot;data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e&quot;);">
-                
+    </div>
+
+
+    <!-- ÁREA DE COMPARAÇÃO -->
+    <div
+        id="comparisonView"
+        class="container-fluid mt-4 d-none"
+    >
+
+        <!-- TÍTULO -->
+        <div class="alert alert-primary">
+
+            <h4 class="alert-heading">
+                Comparação entre cursos
+            </h4>
+
+            <p class="mb-0">
+                Selecione dois cursos para comparar seus gráficos.
+            </p>
+
+        </div>
+
+
+        <!-- SELEÇÃO DOS CURSOS -->
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-body">
+
+                <div class="row g-3">
+
+                    <div class="col-md-5">
+
+                        <label
+                            for="curso1"
+                            class="form-label fw-bold"
+                        >
+                            Primeiro curso
+                        </label>
+
+                        <select
+                            id="curso1"
+                            class="form-select"
+                        >
+                            <option value="">
+                                Selecione o primeiro curso
+                            </option>
+                        </select>
+
+                    </div>
+
+
+                    <div class="col-md-5">
+
+                        <label
+                            for="curso2"
+                            class="form-label fw-bold"
+                        >
+                            Segundo curso
+                        </label>
+
+                        <select
+                            id="curso2"
+                            class="form-select"
+                        >
+                            <option value="">
+                                Selecione o segundo curso
+                            </option>
+                        </select>
+
+                    </div>
+
+
+                    <div class="col-md-2 d-flex align-items-end">
+
+                        <button
+                            id="btnGerarComparacao"
+                            class="btn btn-success w-100"
+                        >
+                            Comparar
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- GRÁFICOS DE COMPARAÇÃO -->
+        <div
+            id="comparisonCharts"
+            class="row"
+        ></div>
+
+
+        <!-- PERGUNTAS -->
+        <div class="mt-5 mb-5">
+
+            <h3 class="mb-3">
+                Análise da comparação
+            </h3>
+
+            <div
+                class="accordion rounded shadow"
+                id="accordionPerguntas"
+            >
+
+                <!-- PERGUNTA 1 -->
                 <div class="accordion-item">
+
                     <h2 class="accordion-header">
-                        <button class="accordion-button shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+
+                        <button
+                            class="accordion-button"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#pergunta1"
+                        >
                             Qual curso apresentou maior concorrência?
                         </button>
+
                     </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                        <div class="accordion-body text-white-50">
-                            <strong>Resposta do Item 1.</strong> Adicione aqui sua análise baseada nos dados do banco.
+
+                    <div
+                        id="pergunta1"
+                        class="accordion-collapse collapse show"
+                        data-bs-parent="#accordionPerguntas"
+                    >
+
+                        <div
+                            id="resposta1"
+                            class="accordion-body"
+                        >
+                            Selecione dois cursos para realizar a comparação.
                         </div>
+
                     </div>
+
                 </div>
 
+
+                <!-- PERGUNTA 2 -->
                 <div class="accordion-item">
+
                     <h2 class="accordion-header">
-                        <button class="accordion-button collapsed shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+
+                        <button
+                            class="accordion-button collapsed"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#pergunta2"
+                        >
                             Qual curso apresentou menor concorrência?
                         </button>
+
                     </h2>
-                    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                        <div class="accordion-body text-white-50">
-                            <strong>Resposta do Item 2.</strong> Adicione aqui sua análise baseada nos dados do banco.
+
+                    <div
+                        id="pergunta2"
+                        class="accordion-collapse collapse"
+                        data-bs-parent="#accordionPerguntas"
+                    >
+
+                        <div
+                            id="resposta2"
+                            class="accordion-body"
+                        >
+                            Selecione dois cursos para realizar a comparação.
                         </div>
+
                     </div>
+
                 </div>
 
+
+                <!-- PERGUNTA 3 -->
                 <div class="accordion-item">
+
                     <h2 class="accordion-header">
-                        <button class="accordion-button collapsed shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+
+                        <button
+                            class="accordion-button collapsed"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#pergunta3"
+                        >
                             Qual curso apresentou maior crescimento?
                         </button>
+
                     </h2>
-                    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                        <div class="accordion-body text-white-50">
-                            <strong>Resposta do Item 3.</strong> Adicione aqui sua análise baseada nos dados do banco.
+
+                    <div
+                        id="pergunta3"
+                        class="accordion-collapse collapse"
+                        data-bs-parent="#accordionPerguntas"
+                    >
+
+                        <div
+                            id="resposta3"
+                            class="accordion-body"
+                        >
+                            Selecione dois cursos para realizar a comparação.
                         </div>
+
                     </div>
+
                 </div>
 
+
+                <!-- PERGUNTA 4 -->
                 <div class="accordion-item">
+
                     <h2 class="accordion-header">
-                        <button class="accordion-button collapsed shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+
+                        <button
+                            class="accordion-button collapsed"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#pergunta4"
+                        >
                             Houve queda de concorrência em algum curso?
                         </button>
+
                     </h2>
-                    <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                        <div class="accordion-body text-white-50">
-                            <strong>Resposta do Item 4.</strong> Adicione aqui sua análise baseada nos dados do banco.
+
+                    <div
+                        id="pergunta4"
+                        class="accordion-collapse collapse"
+                        data-bs-parent="#accordionPerguntas"
+                    >
+
+                        <div
+                            id="resposta4"
+                            class="accordion-body"
+                        >
+                            Selecione dois cursos para realizar a comparação.
                         </div>
+
                     </div>
+
                 </div>
 
+
+                <!-- PERGUNTA 5 -->
                 <div class="accordion-item">
+
                     <h2 class="accordion-header">
-                        <button class="accordion-button collapsed shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+
+                        <button
+                            class="accordion-button collapsed"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#pergunta5"
+                        >
                             Qual curso foi mais estável?
                         </button>
+
                     </h2>
-                    <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                        <div class="accordion-body text-white-50">
-                            <strong>Resposta do Item 5.</strong> Adicione aqui sua análise baseada nos dados do banco.
+
+                    <div
+                        id="pergunta5"
+                        class="accordion-collapse collapse"
+                        data-bs-parent="#accordionPerguntas"
+                    >
+
+                        <div
+                            id="resposta5"
+                            class="accordion-body"
+                        >
+                            Selecione dois cursos para realizar a comparação.
                         </div>
+
                     </div>
+
                 </div>
 
+
+                <!-- PERGUNTA 6 -->
                 <div class="accordion-item">
+
                     <h2 class="accordion-header">
-                        <button class="accordion-button collapsed shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+
+                        <button
+                            class="accordion-button collapsed"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#pergunta6"
+                        >
                             Qual ano teve maior concorrência média?
                         </button>
+
                     </h2>
-                    <div id="collapseSix" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                        <div class="accordion-body text-white-50">
-                            <strong>Resposta do Item 6.</strong> Adicione aqui sua análise baseada nos dados do banco.
+
+                    <div
+                        id="pergunta6"
+                        class="accordion-collapse collapse"
+                        data-bs-parent="#accordionPerguntas"
+                    >
+
+                        <div
+                            id="resposta6"
+                            class="accordion-body"
+                        >
+                            Selecione dois cursos para realizar a comparação.
                         </div>
+
                     </div>
+
                 </div>
 
+
+                <!-- PERGUNTA 7 -->
                 <div class="accordion-item">
+
                     <h2 class="accordion-header">
-                        <button class="accordion-button collapsed shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+
+                        <button
+                            class="accordion-button collapsed"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#pergunta7"
+                        >
                             Existe relação entre concorrência e nota mínima?
                         </button>
+
                     </h2>
-                    <div id="collapseSeven" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                        <div class="accordion-body text-white-50">
-                            <strong>Resposta do Item 7.</strong> Adicione aqui sua análise baseada nos dados do banco.
+
+                    <div
+                        id="pergunta7"
+                        class="accordion-collapse collapse"
+                        data-bs-parent="#accordionPerguntas"
+                    >
+
+                        <div
+                            id="resposta7"
+                            class="accordion-body"
+                        >
+                            Selecione dois cursos para realizar a comparação.
                         </div>
+
                     </div>
+
                 </div>
 
+
+                <!-- PERGUNTA 8 -->
                 <div class="accordion-item">
+
                     <h2 class="accordion-header">
-                        <button class="accordion-button collapsed shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
-                            Quais outras conclusões (insights) podem ser obtidas?
+
+                        <button
+                            class="accordion-button collapsed"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#pergunta8"
+                        >
+                            Quais outras conclusões podem ser obtidas?
                         </button>
+
                     </h2>
-                    <div id="collapseEight" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                        <div class="accordion-body text-white-50">
-                            <strong>Resposta do Item 8.</strong> Adicione aqui sua análise baseada nos dados do banco.
+
+                    <div
+                        id="pergunta8"
+                        class="accordion-collapse collapse"
+                        data-bs-parent="#accordionPerguntas"
+                    >
+
+                        <div
+                            id="resposta8"
+                            class="accordion-body"
+                        >
+                            Selecione dois cursos para realizar a comparação.
                         </div>
+
                     </div>
+
                 </div>
 
             </div>
+
         </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    </div>
 
-        <script type="module">
-    import { db } from './database.js'
+</div>
 
-    const toastEl = document.getElementById('liveToast');
-    const toast = new bootstrap.Toast(toastEl);
-    toast.show();
 
-    const charts = document.querySelector('#charts');
-    const tablesContainer = document.querySelector('#tables-container');
-    const dropdownMenu = document.querySelector('.dropdown-menu');
+<!-- ========================= -->
+<!-- MODAL DE ANÁLISE -->
+<!-- ========================= -->
 
-    const coresCotas = {
-        "Universal": "#36A2EB",
-        "Negro": "#FF6384",
-        "publica": "#FFCE56",
-        "PCD": "#4BC0C0"
-    };
+<div
+    class="modal fade"
+    id="modalAnalise"
+    tabindex="-1"
+    aria-hidden="true"
+>
 
-    // 1. POPULAR O DROPDOWN COM OS CURSOS DO BANCO
-    dropdownMenu.innerHTML = `<li><a class="dropdown-item active" href="#" data-curso-id="todos">Mostrar Todos</a></li>`;
-    
-    db.cursos.forEach(curso => {
-        dropdownMenu.insertAdjacentHTML('beforeend', `
-            <li><a class="dropdown-item" href="#" data-curso-id="${curso.id}">${curso.nome} (${curso.modalidade})</a></li>
-        `);
-    });
+    <div
+        class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"
+    >
 
-    // 2. RENDERIZAR OS GRÁFICOS E TABELAS
-    db.cursos.forEach(curso => {
-        const canvasId = `chart-${curso.id}-${curso.nome.replace(/\s+/g, '')}`;
+        <div class="modal-content">
 
-        // Adicionada a classe 'curso-item' e o atributo 'data-curso-id' para controle de visibilidade
-        const chartHTML = `
-            <section class="col-md-6 mb-4 curso-item" data-curso-id="${curso.id}">
-                <div class="card h-100 p-3 shadow-sm">
-                    <h3 class="h5 border-bottom pb-2">${curso.nome} (${curso.modalidade})</h3>
-                    <canvas id="${canvasId}"></canvas>
+            <div class="modal-header bg-dark text-white">
+
+                <h5
+                    id="modalTitulo"
+                    class="modal-title"
+                >
+                    Análise
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="modal"
+                    aria-label="Fechar"
+                ></button>
+
+            </div>
+
+
+            <div class="modal-body">
+
+                <div
+                    id="modalConteudo"
+                    class="p-2"
+                >
                 </div>
-            </section>
-        `;
-        charts.insertAdjacentHTML('beforeend', chartHTML);
-            
-        const ctx = document.getElementById(canvasId);
 
-        const anosOrdenados = curso.cotas.map(c => c.ano).sort((a, b) => a - b);
-        const tiposUnicos = [...new Set(curso.cotas.flatMap(c => c.tipoCota.map(t => t.tipo)))];
+            </div>
 
-        const datasets = tiposUnicos.map(tipo => {
-            const dadosConcorrencia = anosOrdenados.map(ano => {
-                const dadosDoAno = curso.cotas.find(c => c.ano === ano);
-                const infoCota = dadosDoAno ? dadosDoAno.tipoCota.find(t => t.tipo === tipo) : null;
-                
-                if (infoCota && infoCota.vagas > 0) {
-                    return parseFloat((infoCota.candidatos / infoCota.vagas).toFixed(2));
-                }
-                return 0;
-            });
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Fechar
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- CHART.JS -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- BOOTSTRAP -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<script type="module">
+
+import { db } from './database.js';
+
+
+// ======================================================
+// ELEMENTOS
+// ======================================================
+
+const charts = document.querySelector('#charts');
+
+const tablesContainer =
+    document.querySelector('#tables-container');
+
+const dropdownMenu =
+    document.querySelector('#dropdownMenu');
+
+const dropdownButton =
+    document.querySelector('#cursoDropdownButton');
+
+const btnComparar =
+    document.querySelector('#btnComparar');
+
+const btnGerarComparacao =
+    document.querySelector('#btnGerarComparacao');
+
+const normalView =
+    document.querySelector('#normalView');
+
+const comparisonView =
+    document.querySelector('#comparisonView');
+
+const comparisonCharts =
+    document.querySelector('#comparisonCharts');
+
+const curso1Select =
+    document.querySelector('#curso1');
+
+const curso2Select =
+    document.querySelector('#curso2');
+
+
+// ======================================================
+// CORES DAS COTAS
+// ======================================================
+
+const coresCotas = {
+
+    "Universal": "#36A2EB",
+
+    "Negro": "#FF6384",
+
+    "publica": "#FFCE56",
+
+    "publicaNegro": "#9966FF",
+
+    "PCD": "#4BC0C0"
+
+};
+
+
+// ======================================================
+// NOME DAS COTAS
+// ======================================================
+
+const nomesCotas = {
+
+    "Universal": "Universal",
+
+    "Negro": "Negro",
+
+    "publica": "Escola Pública",
+
+    "publicaNegro": "Escola Pública + Negro",
+
+    "PCD": "PCD"
+
+};
+
+
+// ======================================================
+// VARIÁVEIS
+// ======================================================
+
+let graficos = [];
+
+
+// ======================================================
+// UTILIDADES
+// ======================================================
+
+function formatarNota(valor) {
+
+    if (
+        valor === undefined ||
+        valor === null ||
+        valor === 0
+    ) {
+        return "-";
+    }
+
+    return valor;
+}
+
+
+function obterTiposCota(curso) {
+
+    return [
+        ...new Set(
+            curso.cotas.flatMap(
+                cotaAno =>
+                    cotaAno.tipoCota.map(
+                        cota => cota.tipo
+                    )
+            )
+        )
+    ];
+
+}
+
+
+// ======================================================
+// DROPDOWN
+// ======================================================
+
+dropdownMenu.innerHTML = `
+
+    <li>
+        <a
+            class="dropdown-item active"
+            href="#"
+            data-curso-id="todos"
+        >
+            Todos os cursos
+        </a>
+    </li>
+
+`;
+
+db.cursos.forEach(curso => {
+
+    dropdownMenu.insertAdjacentHTML(
+        'beforeend',
+
+        `
+
+        <li>
+
+            <a
+                class="dropdown-item"
+                href="#"
+                data-curso-id="${curso.id}"
+            >
+
+                ${curso.nome}
+                (${curso.modalidade})
+
+            </a>
+
+        </li>
+
+        `
+
+    );
+
+});
+
+
+// ======================================================
+// SELECTS DA COMPARAÇÃO
+// ======================================================
+
+db.cursos.forEach(curso => {
+
+    const option = document.createElement('option');
+
+    option.value = curso.id;
+
+    option.textContent =
+        `${curso.nome} (${curso.modalidade})`;
+
+    curso1Select.appendChild(option.cloneNode(true));
+
+    curso2Select.appendChild(option);
+
+});
+
+
+// ======================================================
+// CRIAR GRÁFICO DE UM CURSO
+// ======================================================
+
+function criarGraficoCurso(curso, canvasId) {
+
+    const canvas =
+        document.getElementById(canvasId);
+
+    if (!canvas) return;
+
+    const anosOrdenados =
+        curso.cotas
+            .map(c => c.ano)
+            .sort((a, b) => a - b);
+
+
+    const tiposUnicos =
+        obterTiposCota(curso);
+
+
+    const datasets =
+        tiposUnicos.map(tipo => {
+
+            const dadosConcorrencia =
+                anosOrdenados.map(ano => {
+
+                    const dadosDoAno =
+                        curso.cotas.find(
+                            c => c.ano === ano
+                        );
+
+                    const infoCota =
+                        dadosDoAno?.tipoCota.find(
+                            t => t.tipo === tipo
+                        );
+
+                    if (
+                        infoCota &&
+                        infoCota.vagas > 0
+                    ) {
+
+                        return parseFloat(
+                            (
+                                infoCota.candidatos /
+                                infoCota.vagas
+                            ).toFixed(2)
+                        );
+
+                    }
+
+                    return null;
+
+                });
+
 
             return {
-                label: tipo === 'publica' ? 'Escola Pública' : tipo,
-                data: dadosConcorrencia,
-                borderColor: coresCotas[tipo] || '#9966FF',
-                backgroundColor: coresCotas[tipo] || '#9966FF',
+
+                label:
+                    nomesCotas[tipo] || tipo,
+
+                data:
+                    dadosConcorrencia,
+
+                borderColor:
+                    coresCotas[tipo] || '#9966FF',
+
+                backgroundColor:
+                    coresCotas[tipo] || '#9966FF',
+
                 borderWidth: 2,
-                tension: 0.1
+
+                tension: 0.1,
+
+                spanGaps: true
+
             };
+
         });
 
-        new Chart(ctx, {
+
+    const grafico =
+        new Chart(canvas, {
+
             type: 'line',
+
             data: {
+
                 labels: anosOrdenados,
+
                 datasets: datasets
+
             },
+
             options: {
+
                 responsive: true,
+
+                maintainAspectRatio: true,
+
                 plugins: {
-                    legend: { position: 'bottom' },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return `${context.dataset.label}: ${context.raw} cand/vaga`;
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: { display: true, text: 'Candidatos por Vaga' }
+
+                    legend: {
+                        position: 'bottom'
                     },
-                    x: {
-                        title: { display: true, text: 'Ano' }
+
+                    tooltip: {
+
+                        callbacks: {
+
+                            label: function(context) {
+
+                                return `
+                                    ${context.dataset.label}:
+                                    ${context.raw}
+                                    cand/vaga
+                                `;
+
+                            }
+
+                        }
+
                     }
+
+                },
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: true,
+
+                        title: {
+
+                            display: true,
+
+                            text:
+                                'Candidatos por Vaga'
+
+                        }
+
+                    },
+
+                    x: {
+
+                        title: {
+
+                            display: true,
+
+                            text: 'Ano'
+
+                        }
+
+                    }
+
                 }
+
             }
+
         });
 
-        // Montar a tabela do curso
-        let linhasTabela = '';
-        curso.cotas.forEach(cotaAno => {
-            const totalCandidatos = cotaAno.tipoCota.reduce((acc, t) => acc + (t.candidatos || 0), 0);
-            const totalVagas = cotaAno.tipoCota.reduce((acc, t) => acc + (t.vagas || 0), 0);
-            const ratio = totalVagas > 0 ? (totalCandidatos / totalVagas).toFixed(2) : '0.00';
-            const notaMin = cotaAno.notaMinima || '-';
 
-            linhasTabela += `
-                <tr>
-                    <th scope="row">${cotaAno.ano}</th>
-                    <td>${totalCandidatos}</td>
-                    <td>${totalVagas}</td>
-                    <td>${ratio}</td>
-                    <td>${notaMin}</td>
-                </tr>
-            `;
-        });
+    graficos.push(grafico);
 
-        // Adicionada a classe 'curso-item' e o atributo 'data-curso-id'
-        const tabelaHTML = `
-            <div class="mb-5 curso-item" data-curso-id="${curso.id}">
-                <h4 class="mb-3">${curso.nome} (${curso.modalidade})</h4>
-                <table class="table table-striped table-hover">
-                    <thead class="table-dark">
-                        <tr>
-                            <th scope="col">Ano</th>
-                            <th scope="col">Candidatos</th>
-                            <th scope="col">Vagas</th>
-                            <th scope="col">Candidatos/Vaga</th>
-                            <th scope="col">Nota Mínima</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${linhasTabela}
-                    </tbody>
-                </table>
-            </div>
+}
+
+
+// ======================================================
+// CRIAR TABELA
+// ======================================================
+
+function criarTabelaCurso(curso) {
+
+    const tiposCota =
+        obterTiposCota(curso);
+
+
+    let cabecalhoCotas = '';
+
+    tiposCota.forEach(tipo => {
+
+        cabecalhoCotas += `
+
+            <th
+                scope="col"
+                class="text-nowrap"
+            >
+
+                Nota mínima -
+                ${nomesCotas[tipo] || tipo}
+
+            </th>
+
         `;
 
-        tablesContainer.insertAdjacentHTML('beforeend', tabelaHTML);
     });
 
-    // 3. LÓGICA DE FILTRAGEM VIA DROPDOWN
-    dropdownMenu.addEventListener('click', (e) => {
-        const target = e.target.closest('.dropdown-item');
+
+    let linhasTabela = '';
+
+
+    curso.cotas
+        .slice()
+        .sort((a, b) => b.ano - a.ano)
+        .forEach(cotaAno => {
+
+
+            const totalCandidatos =
+                cotaAno.tipoCota.reduce(
+                    (acc, t) =>
+                        acc + (t.candidatos || 0),
+                    0
+                );
+
+
+            const totalVagas =
+                cotaAno.tipoCota.reduce(
+                    (acc, t) =>
+                        acc + (t.vagas || 0),
+                    0
+                );
+
+
+            const ratio =
+                totalVagas > 0
+
+                    ? (
+                        totalCandidatos /
+                        totalVagas
+                    ).toFixed(2)
+
+                    : '0.00';
+
+
+            let notasCotas = '';
+
+
+            tiposCota.forEach(tipo => {
+
+                const infoCota =
+                    cotaAno.tipoCota.find(
+                        t => t.tipo === tipo
+                    );
+
+
+                notasCotas += `
+
+                    <td>
+
+                        ${
+                            infoCota
+                                ? formatarNota(
+                                    infoCota.notaMinima
+                                )
+                                : '-'
+                        }
+
+                    </td>
+
+                `;
+
+            });
+
+
+            linhasTabela += `
+
+                <tr>
+
+                    <th scope="row">
+                        ${cotaAno.ano}
+                    </th>
+
+                    <td>
+                        ${totalCandidatos}
+                    </td>
+
+                    <td>
+                        ${totalVagas}
+                    </td>
+
+                    <td>
+                        ${ratio}
+                    </td>
+
+                    ${notasCotas}
+
+                </tr>
+
+            `;
+
+        });
+
+
+    return `
+
+        <div class="table-responsive">
+
+            <table
+                class="table table-striped
+                       table-hover table-bordered
+                       align-middle"
+            >
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>
+                            Ano
+                        </th>
+
+                        <th>
+                            Candidatos
+                        </th>
+
+                        <th>
+                            Vagas
+                        </th>
+
+                        <th>
+                            Candidatos/Vaga
+                        </th>
+
+                        ${cabecalhoCotas}
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    ${linhasTabela}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    `;
+
+}
+
+
+// ======================================================
+// CRIAR ANÁLISE DO CURSO
+// ======================================================
+
+function criarAnaliseCurso(curso) {
+
+    const anos =
+        curso.cotas
+            .map(c => c.ano)
+            .sort((a, b) => a - b);
+
+
+    let maiorConcorrencia = {
+        valor: -Infinity,
+        ano: null,
+        tipo: null
+    };
+
+
+    let menorConcorrencia = {
+        valor: Infinity,
+        ano: null,
+        tipo: null
+    };
+
+
+    curso.cotas.forEach(cotaAno => {
+
+        cotaAno.tipoCota.forEach(cota => {
+
+            if (cota.vagas <= 0) return;
+
+            const concorrencia =
+                cota.candidatos /
+                cota.vagas;
+
+
+            if (
+                concorrencia >
+                maiorConcorrencia.valor
+            ) {
+
+                maiorConcorrencia = {
+
+                    valor: concorrencia,
+
+                    ano: cotaAno.ano,
+
+                    tipo: cota.tipo
+
+                };
+
+            }
+
+
+            if (
+                concorrencia <
+                menorConcorrencia.valor
+            ) {
+
+                menorConcorrencia = {
+
+                    valor: concorrencia,
+
+                    ano: cotaAno.ano,
+
+                    tipo: cota.tipo
+
+                };
+
+            }
+
+        });
+
+    });
+
+
+    let html = `
+
+        <div class="container-fluid">
+
+            <div class="row g-3">
+
+                <div class="col-md-6">
+
+                    <div class="card h-100 shadow-sm">
+
+                        <div class="card-body">
+
+                            <h5 class="card-title">
+                                Maior concorrência
+                            </h5>
+
+                            <p class="display-6">
+                                ${maiorConcorrencia.valor.toFixed(2)}
+                            </p>
+
+                            <p class="text-muted mb-0">
+
+                                ${nomesCotas[maiorConcorrencia.tipo]
+                                    || maiorConcorrencia.tipo}
+
+                                — ${maiorConcorrencia.ano}
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <div class="card h-100 shadow-sm">
+
+                        <div class="card-body">
+
+                            <h5 class="card-title">
+                                Menor concorrência
+                            </h5>
+
+                            <p class="display-6">
+                                ${menorConcorrencia.valor.toFixed(2)}
+                            </p>
+
+                            <p class="text-muted mb-0">
+
+                                ${nomesCotas[menorConcorrencia.tipo]
+                                    || menorConcorrencia.tipo}
+
+                                — ${menorConcorrencia.ano}
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-12">
+
+                    <div class="alert alert-secondary mt-2">
+
+                        <h5>
+                            Resumo
+                        </h5>
+
+                        <p class="mb-0">
+
+                            O curso possui dados de
+                            ${anos[0]} a ${anos[anos.length - 1]}.
+
+                            A maior concorrência encontrada foi de
+                            <strong>
+                                ${maiorConcorrencia.valor.toFixed(2)}
+                            </strong>
+                            candidatos por vaga.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    return html;
+
+}
+
+
+// ======================================================
+// RENDERIZAR CURSO
+// ======================================================
+
+function renderizarCurso(curso) {
+
+    const canvasId =
+        `chart-${curso.id}`;
+
+
+    charts.insertAdjacentHTML(
+
+        'beforeend',
+
+        `
+
+        <section
+            class="col-lg-6 mb-5 curso-item"
+            data-curso-id="${curso.id}"
+        >
+
+            <div class="card h-100 shadow-sm">
+
+                <div class="card-body">
+
+                    <h3 class="h5 border-bottom pb-2">
+
+                        ${curso.nome}
+
+                        <span class="text-muted">
+                            (${curso.modalidade})
+                        </span>
+
+                    </h3>
+
+
+                    <canvas
+                        id="${canvasId}"
+                    ></canvas>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        `
+
+    );
+
+
+    criarGraficoCurso(
+        curso,
+        canvasId
+    );
+
+
+    tablesContainer.insertAdjacentHTML(
+
+        'beforeend',
+
+        `
+
+        <div
+            class="mb-5 curso-item"
+            data-curso-id="${curso.id}"
+        >
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <h4 class="mb-3">
+
+                        ${curso.nome}
+
+                        <small class="text-muted">
+
+                            (${curso.modalidade})
+
+                        </small>
+
+                    </h4>
+
+
+                    ${criarTabelaCurso(curso)}
+
+
+                    <!-- BOTÃO ANÁLISE -->
+
+                    <div class="text-center mt-4">
+
+                        <button
+                            class="btn btn-dark btnAnalise"
+                            data-curso-id="${curso.id}"
+                        >
+
+                            Análise
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        `
+
+    );
+
+}
+
+
+// ======================================================
+// RENDERIZAR TODOS OS CURSOS
+// ======================================================
+
+db.cursos.forEach(curso => {
+
+    renderizarCurso(curso);
+
+});
+
+
+// ======================================================
+// DROPDOWN - SELEÇÃO
+// ======================================================
+
+dropdownMenu.addEventListener(
+    'click',
+    e => {
+
+        const target =
+            e.target.closest('.dropdown-item');
+
+
         if (!target) return;
+
 
         e.preventDefault();
 
-        // Atualiza a classe ativa no menu
-        dropdownMenu.querySelectorAll('.dropdown-item').forEach(item => item.classList.remove('active'));
+
+        dropdownMenu
+            .querySelectorAll('.dropdown-item')
+            .forEach(item =>
+                item.classList.remove('active')
+            );
+
+
         target.classList.add('active');
 
-        const cursoIdSelecionado = target.getAttribute('data-curso-id');
-        const todosElementosCurso = document.querySelectorAll('.curso-item');
 
-        todosElementosCurso.forEach(el => {
-            if (cursoIdSelecionado === 'todos' || el.getAttribute('data-curso-id') === cursoIdSelecionado) {
-                el.classList.remove('d-none'); // Exibe o elemento
-            } else {
-                el.classList.add('d-none'); // Oculta o elemento usando classe do Bootstrap
-            }
+        const cursoId =
+            target.getAttribute(
+                'data-curso-id'
+            );
+
+
+        // Volta para visualização normal
+        normalView.classList.remove('d-none');
+
+        comparisonView.classList.add('d-none');
+
+
+        if (cursoId === 'todos') {
+
+            dropdownButton.textContent =
+                'Todos os cursos';
+
+
+            document
+                .querySelectorAll('.curso-item')
+                .forEach(el =>
+                    el.classList.remove('d-none')
+                );
+
+
+            return;
+
+        }
+
+
+        const curso =
+            db.cursos.find(
+                c => String(c.id) === cursoId
+            );
+
+
+        dropdownButton.textContent =
+            `${curso.nome} (${curso.modalidade})`;
+
+
+        document
+            .querySelectorAll('.curso-item')
+            .forEach(el => {
+
+                if (
+                    el.getAttribute(
+                        'data-curso-id'
+                    ) === cursoId
+                ) {
+
+                    el.classList.remove('d-none');
+
+                } else {
+
+                    el.classList.add('d-none');
+
+                }
+
+            });
+
+    }
+);
+
+
+// ======================================================
+// BOTÃO COMPARAR
+// ======================================================
+
+btnComparar.addEventListener(
+    'click',
+    () => {
+
+        normalView.classList.add('d-none');
+
+        comparisonView.classList.remove('d-none');
+
+        dropdownButton.textContent =
+            'Comparação de cursos';
+
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
         });
+
+    }
+);
+
+
+// ======================================================
+// GERAR COMPARAÇÃO
+// ======================================================
+
+btnGerarComparacao.addEventListener(
+    'click',
+    () => {
+
+        const id1 =
+            curso1Select.value;
+
+        const id2 =
+            curso2Select.value;
+
+
+        if (!id1 || !id2) {
+
+            alert(
+                'Selecione os dois cursos para comparar.'
+            );
+
+            return;
+
+        }
+
+
+        if (id1 === id2) {
+
+            alert(
+                'Selecione dois cursos diferentes.'
+            );
+
+            return;
+
+        }
+
+
+        const curso1 =
+            db.cursos.find(
+                c => String(c.id) === id1
+            );
+
+
+        const curso2 =
+            db.cursos.find(
+                c => String(c.id) === id2
+            );
+
+
+        gerarGraficosComparacao(
+            curso1,
+            curso2
+        );
+
+
+        gerarPerguntas(
+            curso1,
+            curso2
+        );
+
+    }
+);
+
+
+// ======================================================
+// GRÁFICO DE COMPARAÇÃO
+// ======================================================
+
+function gerarGraficosComparacao(
+    curso1,
+    curso2
+) {
+
+    comparisonCharts.innerHTML = '';
+
+
+    const canvasId =
+        `comparacao-${curso1.id}-${curso2.id}`;
+
+
+    comparisonCharts.insertAdjacentHTML(
+
+        'beforeend',
+
+        `
+
+        <div class="col-12">
+
+            <div class="card shadow-sm mb-4">
+
+                <div class="card-body">
+
+                    <h4 class="text-center mb-4">
+
+                        ${curso1.nome}
+                        ×
+                        ${curso2.nome}
+
+                    </h4>
+
+
+                    <canvas
+                        id="${canvasId}"
+                    ></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        `
+
+    );
+
+
+    const anos =
+        [
+            ...new Set(
+                [
+                    ...curso1.cotas.map(c => c.ano),
+
+                    ...curso2.cotas.map(c => c.ano)
+                ]
+            )
+        ]
+        .sort((a, b) => a - b);
+
+
+    const tipos = [
+        "Universal",
+        "Negro",
+        "publica",
+        "publicaNegro",
+        "PCD"
+    ];
+
+
+    const datasets = [];
+
+
+    function adicionarDatasets(
+        curso,
+        numero
+    ) {
+
+        tipos.forEach(tipo => {
+
+            const dados =
+                anos.map(ano => {
+
+                    const anoDados =
+                        curso.cotas.find(
+                            c => c.ano === ano
+                        );
+
+
+                    const cota =
+                        anoDados?.tipoCota.find(
+                            t => t.tipo === tipo
+                        );
+
+
+                    if (
+                        cota &&
+                        cota.vagas > 0
+                    ) {
+
+                        return parseFloat(
+                            (
+                                cota.candidatos /
+                                cota.vagas
+                            ).toFixed(2)
+                        );
+
+                    }
+
+
+                    return null;
+
+                });
+
+
+            datasets.push({
+
+                label:
+                    `${curso.nome} - ${nomesCotas[tipo]}`,
+
+                data:
+                    dados,
+
+                borderColor:
+                    coresCotas[tipo],
+
+                backgroundColor:
+                    coresCotas[tipo],
+
+                borderWidth:
+                    numero === 1 ? 2 : 3,
+
+                borderDash:
+                    numero === 1
+                        ? []
+                        : [6, 4],
+
+                tension: 0.1,
+
+                spanGaps: true
+
+            });
+
+        });
+
+    }
+
+
+    adicionarDatasets(
+        curso1,
+        1
+    );
+
+
+    adicionarDatasets(
+        curso2,
+        2
+    );
+
+
+    const ctx =
+        document.getElementById(
+            canvasId
+        );
+
+
+    new Chart(
+        ctx,
+        {
+
+            type: 'line',
+
+            data: {
+
+                labels: anos,
+
+                datasets
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                plugins: {
+
+                    legend: {
+
+                        position:
+                            'bottom'
+
+                    },
+
+                    tooltip: {
+
+                        callbacks: {
+
+                            label:
+                                context =>
+                                    `${context.dataset.label}: ${context.raw} cand/vaga`
+
+                        }
+
+                    }
+
+                },
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: true,
+
+                        title: {
+
+                            display: true,
+
+                            text:
+                                'Candidatos por Vaga'
+
+                        }
+
+                    },
+
+                    x: {
+
+                        title: {
+
+                            display: true,
+
+                            text:
+                                'Ano'
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    );
+
+}
+
+
+// ======================================================
+// ANÁLISE DOS DOIS CURSOS
+// ======================================================
+
+function calcularMediaConcorrencia(curso) {
+
+    let total = 0;
+
+    let quantidade = 0;
+
+
+    curso.cotas.forEach(ano => {
+
+        ano.tipoCota.forEach(cota => {
+
+            if (cota.vagas > 0) {
+
+                total +=
+                    cota.candidatos /
+                    cota.vagas;
+
+                quantidade++;
+
+            }
+
+        });
+
     });
+
+
+    return quantidade > 0
+        ? total / quantidade
+        : 0;
+
+}
+
+
+function calcularMediaPorAno(
+    curso,
+    ano
+) {
+
+    const dados =
+        curso.cotas.find(
+            c => c.ano === ano
+        );
+
+
+    if (!dados) return 0;
+
+
+    let total = 0;
+
+    let quantidade = 0;
+
+
+    dados.tipoCota.forEach(cota => {
+
+        if (cota.vagas > 0) {
+
+            total +=
+                cota.candidatos /
+                cota.vagas;
+
+            quantidade++;
+
+        }
+
+    });
+
+
+    return quantidade > 0
+        ? total / quantidade
+        : 0;
+
+}
+
+
+// ======================================================
+// PERGUNTAS DA COMPARAÇÃO
+// ======================================================
+
+function gerarPerguntas(
+    curso1,
+    curso2
+) {
+
+    const media1 =
+        calcularMediaConcorrencia(
+            curso1
+        );
+
+
+    const media2 =
+        calcularMediaConcorrencia(
+            curso2
+        );
+
+
+    // 1
+    document.querySelector('#resposta1').innerHTML = `
+
+        <strong>
+            ${media1 > media2
+                ? curso1.nome
+                : curso2.nome}
+        </strong>
+        apresentou a maior concorrência média.
+
+        <br><br>
+
+        ${curso1.nome}:
+        <strong>${media1.toFixed(2)}</strong>
+        candidatos/vaga.
+
+        <br>
+
+        ${curso2.nome}:
+        <strong>${media2.toFixed(2)}</strong>
+        candidatos/vaga.
+
+    `;
+
+
+    // 2
+    document.querySelector('#resposta2').innerHTML = `
+
+        O curso com menor concorrência média foi:
+
+        <strong>
+            ${media1 < media2
+                ? curso1.nome
+                : curso2.nome}
+        </strong>.
+
+    `;
+
+
+    // Crescimento
+    const primeiroAno =
+        Math.min(
+            ...curso1.cotas.map(c => c.ano),
+            ...curso2.cotas.map(c => c.ano)
+        );
+
+
+    const ultimoAno =
+        Math.max(
+            ...curso1.cotas.map(c => c.ano),
+            ...curso2.cotas.map(c => c.ano)
+        );
+
+
+    const inicio1 =
+        calcularMediaPorAno(
+            curso1,
+            primeiroAno
+        );
+
+
+    const fim1 =
+        calcularMediaPorAno(
+            curso1,
+            ultimoAno
+        );
+
+
+    const inicio2 =
+        calcularMediaPorAno(
+            curso2,
+            primeiroAno
+        );
+
+
+    const fim2 =
+        calcularMediaPorAno(
+            curso2,
+            ultimoAno
+        );
+
+
+    const crescimento1 =
+        inicio1 > 0
+            ? ((fim1 - inicio1) / inicio1) * 100
+            : 0;
+
+
+    const crescimento2 =
+        inicio2 > 0
+            ? ((fim2 - inicio2) / inicio2) * 100
+            : 0;
+
+
+    // 3
+    document.querySelector('#resposta3').innerHTML = `
+
+        <strong>
+            ${crescimento1 > crescimento2
+                ? curso1.nome
+                : curso2.nome}
+        </strong>
+        apresentou o maior crescimento relativo.
+
+        <br><br>
+
+        ${curso1.nome}:
+        ${crescimento1.toFixed(2)}%.
+
+        <br>
+
+        ${curso2.nome}:
+        ${crescimento2.toFixed(2)}%.
+
+    `;
+
+
+    // 4
+    document.querySelector('#resposta4').innerHTML = `
+
+        ${fim1 < inicio1
+            ? `<strong>${curso1.nome}</strong> apresentou queda no período.`
+            : `${curso1.nome} não apresentou queda média no período.`}
+
+        <br>
+
+        ${fim2 < inicio2
+            ? `<strong>${curso2.nome}</strong> apresentou queda no período.`
+            : `${curso2.nome} não apresentou queda média no período.`}
+
+    `;
+
+
+    // 5
+    const variacao1 =
+        Math.abs(
+            fim1 - inicio1
+        );
+
+
+    const variacao2 =
+        Math.abs(
+            fim2 - inicio2
+        );
+
+
+    document.querySelector('#resposta5').innerHTML = `
+
+        Considerando a variação média entre
+        ${primeiroAno} e ${ultimoAno},
+        o curso mais estável foi:
+
+        <strong>
+            ${variacao1 < variacao2
+                ? curso1.nome
+                : curso2.nome}
+        </strong>.
+
+    `;
+
+
+    // 6
+    const anos =
+        [
+            ...new Set(
+                [
+                    ...curso1.cotas.map(c => c.ano),
+
+                    ...curso2.cotas.map(c => c.ano)
+                ]
+            )
+        ]
+        .sort((a, b) => a - b);
+
+
+    let maiorAno = null;
+
+    let maiorMedia = -Infinity;
+
+
+    anos.forEach(ano => {
+
+        const mediaA =
+            calcularMediaPorAno(
+                curso1,
+                ano
+            );
+
+
+        const mediaB =
+            calcularMediaPorAno(
+                curso2,
+                ano
+            );
+
+
+        const media =
+            (
+                mediaA +
+                mediaB
+            ) / 2;
+
+
+        if (media > maiorMedia) {
+
+            maiorMedia = media;
+
+            maiorAno = ano;
+
+        }
+
+    });
+
+
+    document.querySelector('#resposta6').innerHTML = `
+
+        O ano com maior concorrência média
+        considerando os dois cursos foi:
+
+        <strong>
+            ${maiorAno}
+        </strong>.
+
+        <br><br>
+
+        Média:
+        <strong>
+            ${maiorMedia.toFixed(2)}
+        </strong>
+        candidatos/vaga.
+
+    `;
+
+
+    // 7
+    document.querySelector('#resposta7').innerHTML = `
+
+        A comparação entre concorrência e nota mínima
+        pode indicar que cursos/cotas com maior procura
+        tendem a apresentar notas mínimas maiores.
+
+        Entretanto, essa relação deve ser analisada
+        considerando cada cota separadamente.
+
+    `;
+
+
+    // 8
+    document.querySelector('#resposta8').innerHTML = `
+
+        A comparação permite observar diferenças de
+        concorrência ao longo dos anos, estabilidade,
+        crescimento ou queda e diferenças entre as
+        modalidades de cota.
+
+        <br><br>
+
+        <strong>${curso1.nome}</strong>
+        possui média geral de
+        ${media1.toFixed(2)} candidatos/vaga.
+
+        <br>
+
+        <strong>${curso2.nome}</strong>
+        possui média geral de
+        ${media2.toFixed(2)} candidatos/vaga.
+
+    `;
+
+}
+
+
+// ======================================================
+// BOTÕES "ANÁLISE"
+// ======================================================
+
+document.addEventListener(
+    'click',
+    e => {
+
+        const botao =
+            e.target.closest(
+                '.btnAnalise'
+            );
+
+
+        if (!botao) return;
+
+
+        const cursoId =
+            botao.getAttribute(
+                'data-curso-id'
+            );
+
+
+        const curso =
+            db.cursos.find(
+                c =>
+                    String(c.id) ===
+                    cursoId
+            );
+
+
+        if (!curso) return;
+
+
+        document.querySelector(
+            '#modalTitulo'
+        ).textContent =
+            `Análise — ${curso.nome}`;
+
+
+        document.querySelector(
+            '#modalConteudo'
+        ).innerHTML =
+            criarAnaliseCurso(curso);
+
+
+        const modal =
+            new bootstrap.Modal(
+                document.querySelector(
+                    '#modalAnalise'
+                )
+            );
+
+
+        modal.show();
+
+    }
+);
+
+
+// ======================================================
+// TOAST
+// ======================================================
+
+const toastElement =
+    document.querySelector(
+        '#liveToast'
+    );
+
+
+if (toastElement) {
+
+    const toast =
+        new bootstrap.Toast(
+            toastElement
+        );
+
+    toast.show();
+
+}
+
 </script>
-    </div>
+
 </body>
+
 </html>
