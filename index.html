@@ -13,7 +13,7 @@
 
     <style>
         body {
-            background-color: #f8f9fa;
+            background: #f8f9fa;
         }
 
         .grafico-container {
@@ -57,11 +57,7 @@
         }
 
         .salario-box {
-            background: linear-gradient(
-                135deg,
-                #0d6efd,
-                #084298
-            );
+            background: linear-gradient(135deg, #0d6efd, #084298);
             color: white;
             border-radius: 15px;
         }
@@ -91,7 +87,6 @@
         }
 
         @media (max-width: 768px) {
-
             .grafico-container,
             .grafico-comparacao {
                 width: 100%;
@@ -108,19 +103,13 @@
 <body>
 
 <header class="p-3 bg-dark text-white">
-
     <div class="container-fluid">
-
         <div class="d-flex justify-content-center">
-
             <span class="fs-4 fw-bold">
                 Análise de Concorrência UEPG
             </span>
-
         </div>
-
     </div>
-
 </header>
 
 <main class="container py-5">
@@ -156,11 +145,9 @@
                     id="cursoInicial"
                     class="form-select form-select-lg"
                 >
-
                     <option value="">
                         Selecione um curso
                     </option>
-
                 </select>
 
             </div>
@@ -188,9 +175,7 @@
             class="perguntas-home"
         >
 
-            <div
-                class="bg-dark text-white rounded-4 shadow p-4 p-md-5"
-            >
+            <div class="bg-dark text-white rounded-4 shadow p-4 p-md-5">
 
                 <p class="text-center text-white-50 mb-4">
                     As perguntas abaixo devem ser respondidas
@@ -306,7 +291,7 @@
                                 data-bs-toggle="collapse"
                                 data-bs-target="#homePergunta4"
                             >
-                                Qual curso apresentou maior estabilidade?
+                                Qual dos 4 cursos apresentou maior estabilidade?
                             </button>
 
                         </h2>
@@ -490,11 +475,9 @@
                             id="curso1"
                             class="form-select"
                         >
-
                             <option value="">
                                 Selecione
                             </option>
-
                         </select>
 
                     </div>
@@ -509,11 +492,9 @@
                             id="curso2"
                             class="form-select"
                         >
-
                             <option value="">
                                 Selecione
                             </option>
-
                         </select>
 
                     </div>
@@ -682,7 +663,10 @@ let graficoComparacaoAtual = null;
 
 function obterCotas(curso) {
 
-    if (!curso || !curso.cotas) {
+    if (
+        !curso ||
+        !Array.isArray(curso.cotas)
+    ) {
         return [];
     }
 
@@ -690,7 +674,7 @@ function obterCotas(curso) {
         ...new Set(
             curso.cotas.flatMap(
                 ano =>
-                    ano.tipoCota
+                    Array.isArray(ano.tipoCota)
                         ? ano.tipoCota.map(
                             cota => cota.tipo
                         )
@@ -702,46 +686,99 @@ function obterCotas(curso) {
 
 function obterSalario(curso) {
 
+    if (!curso) {
+        return null;
+    }
+
+    if (!Array.isArray(curso.salariosAtuais)) {
+        return null;
+    }
+
+    if (curso.salariosAtuais.length === 0) {
+        return null;
+    }
+
+    const registro =
+        curso.salariosAtuais.find(
+            item =>
+                item &&
+                item.salario !== undefined &&
+                item.salario !== null
+        );
+
+    if (!registro) {
+        return null;
+    }
+
     const salario =
-        curso.salarioMedioAtual ??
-        curso.salarioMedio ??
-        curso.salario ??
-        curso.salario_medio ??
-        null;
+        Number(
+            String(registro.salario)
+                .replace('R$', '')
+                .replace(/\./g, '')
+                .replace(',', '.')
+                .trim()
+        );
+
+    if (Number.isNaN(salario)) {
+        return null;
+    }
+
+    return salario;
+}
+
+function obterCargo(curso) {
 
     if (
-        salario === null ||
-        salario === undefined ||
-        salario === ''
+        !curso ||
+        !Array.isArray(curso.salariosAtuais)
     ) {
         return null;
     }
 
-    if (typeof salario === 'number') {
-        return salario;
+    const registro =
+        curso.salariosAtuais.find(
+            item =>
+                item &&
+                item.cargo
+        );
+
+    return registro
+        ? registro.cargo
+        : null;
+}
+
+function obterReferenciaSalario(curso) {
+
+    if (
+        !curso ||
+        !Array.isArray(curso.salariosAtuais)
+    ) {
+        return null;
     }
 
-    const valor =
-        String(salario)
-            .replace(/[R$\s]/g, '')
-            .replace(/\./g, '')
-            .replace(',', '.');
+    const registro =
+        curso.salariosAtuais.find(
+            item =>
+                item &&
+                item.referencia
+        );
 
-    const numero =
-        Number(valor);
-
-    return Number.isNaN(numero)
-        ? null
-        : numero;
+    return registro
+        ? registro.referencia
+        : null;
 }
 
 function formatarSalario(valor) {
 
-    if (valor === null) {
+    if (
+        valor === null ||
+        valor === undefined ||
+        Number.isNaN(Number(valor))
+    ) {
         return 'Não informado';
     }
 
-    return valor.toLocaleString(
+    return Number(valor).toLocaleString(
         'pt-BR',
         {
             style: 'currency',
@@ -754,13 +791,18 @@ function calcularMediaConcorrencia(curso) {
 
     const valores = [];
 
-    if (!curso.cotas) {
+    if (
+        !curso ||
+        !Array.isArray(curso.cotas)
+    ) {
         return 0;
     }
 
     curso.cotas.forEach(ano => {
 
-        if (!ano.tipoCota) return;
+        if (!Array.isArray(ano.tipoCota)) {
+            return;
+        }
 
         ano.tipoCota.forEach(cota => {
 
@@ -794,24 +836,25 @@ function calcularMediaCandidatos(curso) {
 
     const valores = [];
 
-    if (!curso.cotas) {
+    if (
+        !curso ||
+        !Array.isArray(curso.cotas)
+    ) {
         return 0;
     }
 
     curso.cotas.forEach(ano => {
 
-        if (!ano.tipoCota) return;
+        if (!Array.isArray(ano.tipoCota)) {
+            return;
+        }
 
         let total = 0;
 
         ano.tipoCota.forEach(cota => {
 
-            if (
-                Number(cota.candidatos) >= 0
-            ) {
-                total += Number(
-                    cota.candidatos
-                );
+            if (Number(cota.candidatos) >= 0) {
+                total += Number(cota.candidatos);
             }
 
         });
@@ -836,20 +879,23 @@ function calcularMediaNota(curso) {
 
     const notas = [];
 
-    if (!curso.cotas) {
+    if (
+        !curso ||
+        !Array.isArray(curso.cotas)
+    ) {
         return 0;
     }
 
     curso.cotas.forEach(ano => {
 
-        if (!ano.tipoCota) return;
+        if (!Array.isArray(ano.tipoCota)) {
+            return;
+        }
 
         ano.tipoCota.forEach(cota => {
 
             const nota =
-                Number(
-                    cota.notaMinima
-                );
+                Number(cota.notaMinima);
 
             if (
                 !Number.isNaN(nota) &&
@@ -876,27 +922,26 @@ function maiorConcorrencia(curso) {
 
     let maior = null;
 
-    if (!curso.cotas) {
+    if (
+        !curso ||
+        !Array.isArray(curso.cotas)
+    ) {
         return null;
     }
 
     curso.cotas.forEach(ano => {
 
-        if (!ano.tipoCota) return;
+        if (!Array.isArray(ano.tipoCota)) {
+            return;
+        }
 
         ano.tipoCota.forEach(cota => {
 
-            if (
-                Number(cota.vagas) > 0
-            ) {
+            if (Number(cota.vagas) > 0) {
 
                 const concorrencia =
-                    Number(
-                        cota.candidatos
-                    ) /
-                    Number(
-                        cota.vagas
-                    );
+                    Number(cota.candidatos) /
+                    Number(cota.vagas);
 
                 if (
                     maior === null ||
@@ -904,22 +949,11 @@ function maiorConcorrencia(curso) {
                 ) {
 
                     maior = {
-
-                        valor:
-                            concorrencia,
-
-                        ano:
-                            ano.ano,
-
-                        candidatos:
-                            cota.candidatos,
-
-                        vagas:
-                            cota.vagas,
-
-                        tipo:
-                            cota.tipo
-
+                        valor: concorrencia,
+                        ano: ano.ano,
+                        candidatos: cota.candidatos,
+                        vagas: cota.vagas,
+                        tipo: cota.tipo
                     };
 
                 }
@@ -1005,14 +1039,6 @@ cursoInicial.addEventListener(
             perguntasHome.style.display =
                 'block';
 
-            if (graficoCursoAtual) {
-
-                graficoCursoAtual.destroy();
-
-                graficoCursoAtual = null;
-
-            }
-
             return;
 
         }
@@ -1028,11 +1054,8 @@ cursoInicial.addEventListener(
 function criarConteudoCurso(curso) {
 
     if (graficoCursoAtual) {
-
         graficoCursoAtual.destroy();
-
         graficoCursoAtual = null;
-
     }
 
     cursoSelecionado.classList.add(
@@ -1042,11 +1065,14 @@ function criarConteudoCurso(curso) {
     const salario =
         obterSalario(curso);
 
+    const cargo =
+        obterCargo(curso);
+
+    const referencia =
+        obterReferenciaSalario(curso);
+
     const mediaConcorrencia =
         calcularMediaConcorrencia(curso);
-
-    const mediaCandidatos =
-        calcularMediaCandidatos(curso);
 
     const mediaNota =
         calcularMediaNota(curso);
@@ -1097,9 +1123,7 @@ function criarConteudoCurso(curso) {
 
                     <div class="col-md-6">
 
-                        <label
-                            class="form-label fw-bold"
-                        >
+                        <label class="form-label fw-bold">
                             Tipo de cota
                         </label>
 
@@ -1114,24 +1138,16 @@ function criarConteudoCurso(curso) {
 
                 <div class="table-responsive mt-4">
 
-                    <table
-                        class="table table-striped table-hover table-bordered"
-                    >
+                    <table class="table table-striped table-hover table-bordered">
 
                         <thead class="table-dark">
 
                             <tr>
-
                                 <th>Ano</th>
-
                                 <th>Candidatos</th>
-
                                 <th>Vagas</th>
-
                                 <th>Candidatos/Vaga</th>
-
                                 <th>Nota mínima</th>
-
                             </tr>
 
                         </thead>
@@ -1174,8 +1190,8 @@ function criarConteudoCurso(curso) {
                             </h3>
 
                             <p class="mb-0">
-                                Estimativa de salário médio atual
-                                associada ao curso.
+                                Dados salariais importados
+                                diretamente do database.
                             </p>
 
                         </div>
@@ -1192,11 +1208,37 @@ function criarConteudoCurso(curso) {
 
                 </div>
 
-                <div class="mercado-trabalho bg-light p-4 mt-4 rounded">
+                <div class="bg-light p-4 mt-4 rounded mercado-trabalho">
 
                     <h4>
-                        Perspectiva profissional
+                        Informações profissionais
                     </h4>
+
+                    ${
+                        cargo
+                        ? `
+                            <p>
+                                <strong>
+                                    Cargo:
+                                </strong>
+                                ${cargo}
+                            </p>
+                        `
+                        : ''
+                    }
+
+                    ${
+                        referencia
+                        ? `
+                            <p>
+                                <strong>
+                                    Fonte:
+                                </strong>
+                                ${referencia}
+                            </p>
+                        `
+                        : ''
+                    }
 
                     <p class="mb-0">
                         ${gerarAnaliseMercado(
@@ -1299,84 +1341,93 @@ function gerarAnaliseMercado(
     ) {
 
         return `
-            A formação apresenta um cenário profissional
-            de alta valorização. O salário médio registrado
-            no banco de dados é de
-            <strong>${formatarSalario(salario)}</strong>.
-            Ao mesmo tempo, a concorrência média registrada
-            é de aproximadamente
-            <strong>${mediaConcorrencia.toFixed(2)}
-            candidatos por vaga</strong>.
-            Isso mostra uma combinação interessante:
-            trata-se de uma carreira que exige um investimento
-            elevado de preparação para o ingresso, mas que
-            apresenta forte valorização profissional.
-            A procura pelo curso também pode ser relacionada
-            à percepção de estabilidade e às possibilidades
-            de atuação em diferentes áreas da saúde.
-        `;
-
-    }
-
-    let texto = '';
-
-    if (
-        salario !== null &&
-        salario > 0
-    ) {
-
-        texto += `
-            O curso apresenta salário médio atual de
-            <strong>${formatarSalario(salario)}</strong>.
-        `;
-
-    } else {
-
-        texto += `
-            O banco de dados não apresenta um salário médio
-            atual para este curso.
+            Medicina apresenta um mercado de trabalho
+            particularmente amplo, com possibilidades de
+            atuação em hospitais, clínicas, unidades de
+            saúde, consultórios, pesquisa, docência e
+            diferentes especialidades. O salário médio
+            registrado no banco é de
+            <strong>
+                ${formatarSalario(salario)}
+            </strong>.
+            Esse valor deve ser interpretado como uma
+            referência e não como garantia de remuneração,
+            já que a renda pode variar de acordo com
+            especialização, experiência, local de atuação,
+            carga horária e modelo de trabalho.
         `;
 
     }
 
     if (
-        mediaConcorrencia > 0
+        nome.includes('engenharia')
     ) {
 
-        texto += `
-            A concorrência média registrada é de
-            <strong>${mediaConcorrencia.toFixed(2)}
-            candidatos por vaga</strong>, indicando o nível
-            de disputa enfrentado pelos candidatos.
+        return `
+            Engenharia de Software possui um mercado de
+            trabalho fortemente relacionado à transformação
+            digital. Empresas de tecnologia, bancos, startups,
+            indústrias e organizações de diferentes setores
+            dependem cada vez mais de profissionais capazes
+            de desenvolver e manter sistemas.
+            O salário médio registrado no banco é de
+            <strong>
+                ${formatarSalario(salario)}
+            </strong>.
+            A possibilidade de atuar em diferentes setores
+            torna a área profissionalmente versátil.
         `;
 
     }
 
     if (
-        mediaNota > 0
+        nome.includes('farmácia')
     ) {
 
-        texto += `
-            A média das notas mínimas registradas é de
-            <strong>${mediaNota.toFixed(2)}</strong>.
-            Assim, o curso combina um determinado nível
-            de exigência para ingresso com uma perspectiva
-            profissional que deve ser analisada em conjunto
-            com o salário médio, a área de atuação e a
-            demanda por profissionais.
+        return `
+            Farmácia apresenta um mercado diversificado,
+            permitindo atuação em farmácias, hospitais,
+            laboratórios, indústria farmacêutica, controle
+            de qualidade, análises e diferentes áreas
+            relacionadas à saúde.
+            O salário médio registrado no banco é de
+            <strong>
+                ${formatarSalario(salario)}
+            </strong>.
+            A variedade de áreas de atuação é um dos pontos
+            importantes para avaliar a carreira.
         `;
 
     }
 
-    texto += `
-        De maneira geral, os dados permitem observar que
-        escolher um curso não depende exclusivamente do
-        salário. A concorrência para ingresso, a nota mínima,
-        a evolução histórica e as características do mercado
-        de trabalho devem ser consideradas conjuntamente.
+    if (
+        nome.includes('odontologia')
+    ) {
+
+        return `
+            Odontologia possui um mercado que combina
+            possibilidades de emprego e atuação autônoma.
+            Clínicas, consultórios, atendimento especializado
+            e serviços públicos são algumas das possibilidades
+            profissionais.
+            O salário médio registrado no banco é de
+            <strong>
+                ${formatarSalario(salario)}
+            </strong>.
+            Para profissionais que seguem uma especialização,
+            a remuneração pode apresentar diferenças
+            significativas em relação à média.
+        `;
+
+    }
+
+    return `
+        O salário médio registrado no banco de dados é de
+        <strong>${formatarSalario(salario)}</strong>.
+        Esse indicador deve ser analisado em conjunto com
+        a concorrência, a formação exigida e as oportunidades
+        disponíveis no mercado.
     `;
-
-    return texto;
 }
 
 function atualizarTabelaCurso(
@@ -1453,7 +1504,11 @@ function atualizarTabelaCurso(
                     </td>
 
                     <td>
-                        ${cota.notaMinima ?? '-'}
+                        ${
+                            cota.notaMinima > 0
+                            ? cota.notaMinima
+                            : '-'
+                        }
                     </td>
 
                 `;
@@ -1528,7 +1583,6 @@ function criarGraficoCurso(
                 });
 
             return {
-
                 label:
                     nomesCotas[tipo] ||
                     tipo,
@@ -1541,7 +1595,6 @@ function criarGraficoCurso(
 
                 tension:
                     0.2
-
             };
 
         });
@@ -1552,13 +1605,11 @@ function criarGraficoCurso(
             type: 'line',
 
             data: {
-
                 labels:
                     anos,
 
                 datasets:
                     datasets
-
             },
 
             options: {
@@ -1572,10 +1623,8 @@ function criarGraficoCurso(
                 plugins: {
 
                     legend: {
-
                         position:
                             'bottom'
-
                     }
 
                 },
@@ -1649,6 +1698,16 @@ btnVoltar.addEventListener(
 
         perguntasHome.style.display =
             'block';
+
+        comparisonCharts.innerHTML = '';
+
+        if (graficoComparacaoAtual) {
+
+            graficoComparacaoAtual.destroy();
+
+            graficoComparacaoAtual = null;
+
+        }
 
         window.scrollTo({
             top: 0,
@@ -1884,10 +1943,8 @@ function gerarGraficoComparacao(
                     plugins: {
 
                         legend: {
-
                             position:
                                 'bottom'
-
                         }
 
                     },
@@ -1938,23 +1995,13 @@ function gerarAnaliseMedicina(curso) {
         <p>
             Para começar a análise, podemos observar as
             médias que obtivemos a partir de algumas relações.
-            Então, primeiramente, temos a média total de
-            candidatos que se inscreveram para o curso de
-            Medicina durante os dez últimos anos (2016-2025).
-        </p>
-
-        <p>
-            A partir dos dados disponíveis no banco de dados,
-            podemos observar a dimensão da procura pelo curso
-            e sua posição entre os cursos analisados. A elevada
-            procura demonstra que Medicina apresenta um dos
-            cenários mais competitivos para ingresso.
+            Primeiramente, temos a média total de candidatos
+            que se inscreveram para o curso de Medicina durante
+            os dez últimos anos (2016-2025).
         </p>
     `;
 
-    if (
-        mediaCandidatos > 0
-    ) {
+    if (mediaCandidatos > 0) {
 
         texto += `
 
@@ -1971,8 +2018,8 @@ function gerarAnaliseMedicina(curso) {
                     )}
                     candidatos por ano
                 </strong>.
-                Esse valor permite dimensionar o tamanho da
-                procura pelo curso durante o período analisado.
+                Isso demonstra a dimensão da procura pelo curso
+                durante o período analisado.
             </p>
 
         `;
@@ -1988,8 +2035,10 @@ function gerarAnaliseMedicina(curso) {
                 dados corresponde ao ano de
                 <strong>${maior.ano}</strong>,
                 quando foram registrados
-                <strong>${maior.valor.toFixed(2)}
-                candidatos por vaga</strong>
+                <strong>
+                    ${maior.valor.toFixed(2)}
+                    candidatos por vaga
+                </strong>
                 na cota
                 <strong>
                     ${nomesCotas[maior.tipo] || maior.tipo}
@@ -2003,19 +2052,6 @@ function gerarAnaliseMedicina(curso) {
         `;
 
     }
-
-    texto += `
-
-        <h5>Concorrência por cota</h5>
-
-        <p>
-            Outra análise importante é observar a concorrência
-            de acordo com cada tipo de cota. Essa divisão é
-            importante porque os diferentes grupos de ingresso
-            apresentam números de candidatos e de vagas
-            distintos ao longo dos anos.
-        </p>
-    `;
 
     const mediasCotas = {};
 
@@ -2037,12 +2073,8 @@ function gerarAnaliseMedicina(curso) {
             ) {
 
                 valores.push(
-                    Number(
-                        cota.candidatos
-                    ) /
-                    Number(
-                        cota.vagas
-                    )
+                    Number(cota.candidatos) /
+                    Number(cota.vagas)
                 );
 
             }
@@ -2070,6 +2102,18 @@ function gerarAnaliseMedicina(curso) {
             (a, b) =>
                 b[1] - a[1]
         );
+
+    texto += `
+
+        <h5>Concorrência por cota</h5>
+
+        <p>
+            Outra análise importante é observar a concorrência
+            de acordo com cada tipo de cota. Essa divisão é
+            importante porque os diferentes grupos de ingresso
+            apresentam números de candidatos e vagas distintos.
+        </p>
+    `;
 
     if (rankingCotas.length) {
 
@@ -2107,38 +2151,27 @@ function gerarAnaliseMedicina(curso) {
     texto += `
 
         <p>
-            A cota Universal apresenta destaque por estar
-            disponível durante todo o período analisado,
-            permitindo uma comparação histórica mais ampla.
-            A diferença entre as linhas das cotas também
-            demonstra que a concorrência não é distribuída
-            igualmente entre os grupos de ingresso.
-        </p>
-
-        <p>
-            Em determinados anos, algumas modalidades não
-            foram ofertadas. Por isso, a média de cada cota
-            deve ser interpretada considerando apenas os anos
-            em que aquela modalidade efetivamente esteve
+            A diferença entre as linhas das cotas demonstra
+            que a concorrência não é distribuída igualmente
+            entre os grupos de ingresso. Além disso, algumas
+            modalidades não foram ofertadas em determinados
+            anos, portanto cada média deve ser interpretada
+            considerando apenas os anos em que a cota esteve
             disponível.
         </p>
 
         <h5>Notas mínimas</h5>
 
         <p>
-            Agora podemos analisar as notas mínimas ao longo
-            dos anos. É importante dividir essa análise por
-            cota específica, pois existe uma diferença
-            significativa entre os desempenhos mínimos
-            necessários para ingresso em cada modalidade.
+            Agora podemos analisar as notas ao longo dos anos.
+            É importante dividir essa análise por cota específica,
+            pois as notas mínimas apresentam diferenças
+            significativas entre as modalidades.
         </p>
 
         <p>
-            A pontuação máxima considerada no vestibular é de
-            <strong>7000 pontos</strong>. Portanto, uma nota
-            mínima elevada representa uma exigência acadêmica
-            significativa para conseguir uma vaga naquela
-            modalidade.
+            A pontuação máxima que pode ser alcançada no
+            vestibular é de <strong>7000 pontos</strong>.
         </p>
     `;
 
@@ -2198,9 +2231,8 @@ function gerarAnaliseMedicina(curso) {
         texto += `
 
             <p>
-                A partir dos dados disponíveis no banco, a
-                média das notas mínimas por cota pode ser
-                organizada da seguinte maneira:
+                A partir dos dados do banco, a média das notas
+                mínimas por cota pode ser organizada assim:
             </p>
 
             <ol>
@@ -2237,79 +2269,48 @@ function gerarAnaliseMedicina(curso) {
     texto += `
 
         <p>
-            A partir dessa comparação, é possível perceber
-            que a cota Universal apresenta uma exigência
-            particularmente elevada. Uma possível hipótese
-            para essa diferença envolve fatores relacionados
-            à preparação escolar dos candidatos, ao acesso
-            a recursos educacionais e às desigualdades
-            existentes entre diferentes trajetórias escolares.
+            A diferença entre as notas mínimas pode ser
+            discutida a partir de fatores educacionais,
+            sociais e econômicos. Entretanto, os dados não
+            permitem afirmar que existe uma única causa para
+            essas diferenças.
         </p>
 
-        <p>
-            Na cota pública, a diferença em relação à
-            Universal também pode ser discutida a partir
-            das dificuldades históricas enfrentadas pelo
-            ensino público. Entretanto, a diferença observada
-            nos dados não deve ser interpretada como resultado
-            de uma única causa, pois fatores econômicos,
-            sociais, educacionais e familiares podem atuar
-            conjuntamente.
-        </p>
-
-        <h5>Medicina e o contexto da pandemia</h5>
+        <h5>Contexto da pandemia</h5>
 
         <p>
             Uma hipótese interessante para interpretar as
-            oscilações observadas nos anos de 2020 e 2021
-            é o impacto da pandemia de COVID-19. A crise
-            sanitária aumentou a visibilidade das profissões
-            da área da saúde e pode ter reforçado, entre parte
-            dos estudantes, a percepção de que Medicina seria
-            uma carreira associada à estabilidade e à elevada
-            demanda profissional.
-        </p>
-
-        <p>
-            O ano de 2021 merece atenção especial porque,
-            mesmo sem necessariamente apresentar o maior
-            número absoluto de inscritos, a relação entre
-            candidatos e vagas pode alcançar valores muito
-            elevados quando o número de vagas diminui.
-            Isso demonstra por que analisar apenas a quantidade
-            de candidatos pode levar a uma interpretação
-            equivocada da concorrência.
+            oscilações observadas em 2020 e 2021 é o impacto
+            da pandemia de COVID-19. A crise sanitária aumentou
+            a visibilidade das profissões da área da saúde e
+            pode ter reforçado, entre parte dos estudantes,
+            a percepção de que Medicina seria uma carreira
+            associada à estabilidade e à elevada demanda
+            profissional.
         </p>
 
         <h5>Mercado de trabalho</h5>
 
         <p>
-            Do ponto de vista profissional, Medicina possui
-            uma característica particular: a análise da
-            remuneração não deve ser feita isoladamente.
-            O mercado médico possui diferentes possibilidades
-            de atuação, como atendimento clínico, hospitais,
-            unidades de saúde, consultórios, pesquisa,
-            docência e especialidades médicas.
-        </p>
-
-        <p>
-            O salário médio registrado no banco de dados é de
+            O salário médio atual registrado diretamente no
+            banco de dados para Medicina é de
             <strong>${formatarSalario(salario)}</strong>.
-            Esse dado reforça a percepção de valorização
-            financeira da carreira, mas deve ser interpretado
-            junto aos custos e ao tempo necessários para a
-            formação profissional.
         </p>
 
         <p>
-            Portanto, o cenário apresentado pelos dados revela
-            um curso com forte procura, elevada exigência para
-            ingresso e perspectivas profissionais relevantes.
-            Ao mesmo tempo, justamente por apresentar uma
-            concorrência tão elevada, a escolha por Medicina
-            exige uma preparação acadêmica consistente e uma
-            análise cuidadosa da trajetória profissional.
+            Esse valor não deve ser interpretado como uma
+            garantia de remuneração. O mercado médico possui
+            diferentes possibilidades de atuação e a renda
+            pode variar conforme especialização, experiência,
+            localidade, carga horária e modelo de trabalho.
+        </p>
+
+        <p>
+            A carreira também possui uma característica
+            interessante: mesmo após a graduação, o profissional
+            pode continuar sua formação por meio de residências
+            e especializações, ampliando as possibilidades de
+            atuação.
         </p>
 
         <h5>Conclusão</h5>
@@ -2318,19 +2319,15 @@ function gerarAnaliseMedicina(curso) {
             Em síntese, os dados mostram que Medicina combina
             elevada procura, forte concorrência, notas mínimas
             altas e um mercado de trabalho de grande relevância.
-            A análise das cotas também evidencia diferenças
-            importantes entre os grupos de ingresso.
+            A análise das cotas evidencia diferenças importantes
+            entre os grupos de ingresso.
         </p>
 
         <p>
-            Dessa forma, não basta observar qual ano teve mais
+            Dessa forma, não basta observar apenas o número de
             candidatos. É necessário relacionar candidatos,
             vagas, concorrência, modalidade de ingresso e nota
-            mínima. Quando essas informações são analisadas em
-            conjunto, conseguimos compreender melhor não apenas
-            a dificuldade de ingresso, mas também algumas das
-            características sociais e educacionais presentes
-            no processo seletivo.
+            mínima para compreender melhor o processo seletivo.
         </p>
     `;
 
@@ -2369,9 +2366,7 @@ function gerarAnaliseCurso(curso) {
 
     }
 
-    let texto = '';
-
-    texto += `
+    let texto = `
 
         <h5>Visão geral</h5>
 
@@ -2383,9 +2378,7 @@ function gerarAnaliseCurso(curso) {
         </p>
     `;
 
-    if (
-        mediaCandidatos > 0
-    ) {
+    if (mediaCandidatos > 0) {
 
         texto += `
 
@@ -2401,21 +2394,16 @@ function gerarAnaliseCurso(curso) {
 
     }
 
-    if (
-        mediaConcorrencia > 0
-    ) {
+    if (mediaConcorrencia > 0) {
 
         texto += `
 
             <p>
-                Considerando as modalidades disponíveis,
-                a concorrência média registrada é de
+                A concorrência média registrada é de
                 <strong>
                     ${mediaConcorrencia.toFixed(2)}
                     candidatos por vaga
                 </strong>.
-                Esse indicador ajuda a dimensionar a
-                dificuldade de ingresso no curso.
             </p>
         `;
 
@@ -2439,9 +2427,7 @@ function gerarAnaliseCurso(curso) {
 
     }
 
-    if (
-        mediaNota > 0
-    ) {
+    if (mediaNota > 0) {
 
         texto += `
 
@@ -2453,10 +2439,8 @@ function gerarAnaliseCurso(curso) {
                 <strong>
                     ${mediaNota.toFixed(2)}
                 </strong>
-                pontos. Considerando a pontuação máxima de
-                7000 pontos, esse indicador permite estimar
-                o nível de desempenho necessário para disputar
-                uma vaga.
+                pontos, considerando a pontuação máxima de
+                7000 pontos.
             </p>
         `;
 
@@ -2467,66 +2451,25 @@ function gerarAnaliseCurso(curso) {
         <h5>Mercado de trabalho</h5>
 
         <p>
-            O mercado de trabalho deve ser analisado como
-            parte de um conjunto de indicadores. A remuneração
-            é um deles, mas não é o único fator que determina
-            a atratividade de uma profissão.
+            O salário médio atual registrado diretamente
+            no banco de dados é de
+            <strong>
+                ${formatarSalario(salario)}
+            </strong>.
         </p>
-    `;
-
-    if (
-        salario !== null
-    ) {
-
-        texto += `
-
-            <p>
-                O salário médio atual registrado no banco
-                de dados é de
-                <strong>
-                    ${formatarSalario(salario)}
-                </strong>.
-                Esse valor representa um importante indicador
-                econômico para analisar a carreira, mas deve
-                ser interpretado em conjunto com a concorrência
-                de ingresso, a formação necessária e as
-                oportunidades de atuação.
-            </p>
-        `;
-
-    } else {
-
-        texto += `
-
-            <p>
-                Não foi encontrado um salário médio atual
-                para este curso no banco de dados.
-            </p>
-        `;
-
-    }
-
-    texto += `
 
         <p>
-            Quando colocamos lado a lado a dificuldade para
-            ingressar e a perspectiva profissional, podemos
-            perceber que um curso muito concorrido não é
-            necessariamente aquele que apresenta a maior
-            remuneração. Da mesma forma, uma remuneração
-            elevada não significa necessariamente baixa
-            concorrência no vestibular.
+            Esse indicador deve ser analisado em conjunto
+            com a concorrência, a formação exigida e as
+            possibilidades de atuação profissional.
         </p>
 
         <h5>Conclusão</h5>
 
         <p>
-            Assim, a melhor interpretação dos dados ocorre
-            quando concorrência, notas mínimas, evolução
-            histórica e mercado de trabalho são observados
-            conjuntamente. Esse conjunto permite construir
-            uma visão mais ampla sobre as características
-            acadêmicas e profissionais de ${curso.nome}.
+            A melhor interpretação dos dados ocorre quando
+            concorrência, notas mínimas, evolução histórica
+            e mercado de trabalho são observados conjuntamente.
         </p>
     `;
 
