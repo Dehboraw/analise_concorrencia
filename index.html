@@ -2338,143 +2338,278 @@ function gerarAnaliseMedicina(curso) {
 }
 
 function gerarAnaliseCurso(curso) {
+    const nome = String(curso.nome || '').toLowerCase();
 
-    const salario =
-        obterSalario(curso);
-
-    const mediaConcorrencia =
-        calcularMediaConcorrencia(curso);
-
-    const mediaCandidatos =
-        calcularMediaCandidatos(curso);
-
-    const mediaNota =
-        calcularMediaNota(curso);
-
-    const maior =
-        maiorConcorrencia(curso);
-
-    const nome =
-        String(
-            curso.nome || ''
-        ).toLowerCase();
-
-    if (
-        nome.includes('medicina')
-    ) {
-
-        return gerarAnaliseMedicina(
-            curso
-        );
-
+    // Se for Medicina, utiliza a análise específica de Medicina já existente
+    if (nome.includes('medicina')) {
+        return gerarAnaliseMedicina(curso);
     }
 
-    let texto = `
+    // --- CÁLCULOS DINÂMICOS COM OS DADOS DO DATABASE.JS ---
+    const mediaCandidatos = calcularMediaCandidatos(curso);
+    const maior = maiorConcorrencia(curso);
+    const salario = obterSalario(curso);
 
-        <h5>Visão geral MUDEI</h5>
+    // Média de concorrência por cota
+    const mediasCotas = {};
+    obterCotas(curso).forEach(tipo => {
+        const valores = [];
+        curso.cotas.forEach(ano => {
+            const cota = ano.tipoCota?.find(item => item.tipo === tipo);
+            if (cota && Number(cota.vagas) > 0) {
+                valores.push(Number(cota.candidatos) / Number(cota.vagas));
+            }
+        });
+        if (valores.length) {
+            mediasCotas[tipo] = valores.reduce((a, b) => a + b, 0) / valores.length;
+        }
+    });
+    const rankingCotas = Object.entries(mediasCotas).sort((a, b) => b[1] - a[1]);
+
+    // Média das notas mínimas por cota
+    const mediasNotas = {};
+    obterCotas(curso).forEach(tipo => {
+        const notas = [];
+        curso.cotas.forEach(ano => {
+            const cota = ano.tipoCota?.find(item => item.tipo === tipo);
+            if (cota && Number(cota.notaMinima) > 0) {
+                notas.push(Number(cota.notaMinima));
+            }
+        });
+        if (notas.length) {
+            mediasNotas[tipo] = notas.reduce((a, b) => a + b, 0) / notas.length;
+        }
+    });
+    const rankingNotas = Object.entries(mediasNotas).sort((a, b) => b[1] - a[1]);
+
+    // --- CONSTRUÇÃO DO TEXTO NO MESMO FORMATO E ESTRUTURA DE MEDICINA ---
+    let texto = `
+        <h5>Concorrência geral</h5>
 
         <p>
-            A análise de ${curso.nome} permite observar
-            simultaneamente a procura pelo curso, o nível
-            de concorrência, as notas mínimas e as perspectivas
-            relacionadas ao mercado de trabalho.
+            Para começar a análise, podemos observar as médias que obtivemos a partir de algumas relações. Primeiramente, temos a média total de candidatos que se inscreveram para o curso de ${curso.nome} durante os dez últimos anos (2016-2025).
         </p>
     `;
 
     if (mediaCandidatos > 0) {
-
         texto += `
-
             <p>
-                A média de candidatos registrada nos dados
-                disponíveis é de aproximadamente
+                A média calculada a partir dos dados disponíveis é de aproximadamente
                 <strong>
-                    ${mediaCandidatos.toFixed(2)}
-                    candidatos por ano
+                    ${mediaCandidatos.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} candidatos por ano
                 </strong>.
+                Isso reflete o padrão de procura pelo curso durante o período analisado.
             </p>
         `;
-
-    }
-
-    if (mediaConcorrencia > 0) {
-
-        texto += `
-
-            <p>
-                A concorrência média registrada é de
-                <strong>
-                    ${mediaConcorrencia.toFixed(2)}
-                    candidatos por vaga
-                </strong>.
-            </p>
-        `;
-
     }
 
     if (maior) {
-
         texto += `
-
             <p>
-                O maior índice de concorrência encontrado
-                foi de
+                O maior valor de concorrência encontrado nos dados corresponde ao ano de
+                <strong>${maior.ano}</strong>,
+                quando foram registrados
                 <strong>
-                    ${maior.valor.toFixed(2)}
-                    candidatos por vaga
-                </strong>,
-                registrado em ${maior.ano}, na modalidade
-                ${nomesCotas[maior.tipo] || maior.tipo}.
-            </p>
-        `;
-
-    }
-
-    if (mediaNota > 0) {
-
-        texto += `
-
-            <h5>Notas mínimas</h5>
-
-            <p>
-                A média das notas mínimas registradas para
-                o curso é de
-                <strong>
-                    ${mediaNota.toFixed(2)}
+                    ${maior.valor.toFixed(2)} candidatos por vaga
                 </strong>
-                pontos, considerando a pontuação máxima de
-                7000 pontos.
+                na cota
+                <strong>
+                    ${nomesCotas[maior.tipo] || maior.tipo}
+                </strong>.
+                Nesse registro foram observados
+                <strong>${maior.candidatos} candidatos</strong>
+                para
+                <strong>${maior.vagas} vagas</strong>.
             </p>
         `;
-
     }
 
     texto += `
-
-        <h5>Mercado de trabalho</h5>
-
-        <p>
-            O salário médio atual registrado diretamente
-            no banco de dados é de
-            <strong>
-                ${formatarSalario(salario)}
-            </strong>.
-        </p>
+        <h5>Concorrência por cota</h5>
 
         <p>
-            Esse indicador deve ser analisado em conjunto
-            com a concorrência, a formação exigida e as
-            possibilidades de atuação profissional.
-        </p>
-
-        <h5>Conclusão</h5>
-
-        <p>
-            A melhor interpretação dos dados ocorre quando
-            concorrência, notas mínimas, evolução histórica
-            e mercado de trabalho são observados conjuntamente.
+            Outra análise importante é observar a concorrência de acordo com cada tipo de cota. Essa divisão é importante porque os diferentes grupos de ingresso apresentam números de candidatos e vagas distintos.
         </p>
     `;
+
+    if (rankingCotas.length) {
+        texto += `
+            <p>
+                Considerando os dados disponíveis, a ordem média de concorrência entre as cotas é:
+            </p>
+            <ol>
+        `;
+        rankingCotas.forEach(([tipo, media]) => {
+            texto += `
+                <li>
+                    <strong>${nomesCotas[tipo] || tipo}</strong>:
+                    ${media.toFixed(2)} candidatos por vaga.
+                </li>
+            `;
+        });
+        texto += `</ol>`;
+    }
+
+    texto += `
+        <p>
+            A diferença entre as linhas das cotas demonstra que a concorrência não é distribuída igualmente entre os grupos de ingresso. Além disso, algumas modalidades não foram ofertadas em determinados anos, portanto cada média deve ser interpretada considerando apenas os anos em que a cota esteve disponível.
+        </p>
+
+        <h5>Notas mínimas</h5>
+
+        <p>
+            Agora podemos analisar as notas ao longo dos anos. É importante dividir essa análise por cota específica, pois as notas mínimas apresentam diferenças significativas entre as modalidades.
+        </p>
+
+        <p>
+            A pontuação máxima que pode ser alcançada no vestibular é de <strong>7000 pontos</strong>.
+        </p>
+    `;
+
+    if (rankingNotas.length) {
+        texto += `
+            <p>
+                A partir dos dados do banco, a média das notas mínimas por cota pode ser organizada assim:
+            </p>
+            <ol>
+        `;
+        rankingNotas.forEach(([tipo, media]) => {
+            texto += `
+                <li>
+                    <strong>${nomesCotas[tipo] || tipo}</strong>:
+                    ${media.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} pontos.
+                </li>
+            `;
+        });
+        texto += `</ol>`;
+    }
+
+    texto += `
+        <p>
+            A diferença entre as notas mínimas pode ser discutida a partir de fatores educacionais, sociais e econômicos. Entretanto, os dados não permitem afirmar que existe uma única causa para essas diferenças.
+        </p>
+    `;
+
+    // --- ANÁLISES ESPECÍFICAS PARA CADA CURSO ---
+
+    if (nome.includes('engenharia')) {
+        texto += `
+            <h5>Contexto de mercado e transformação digital</h5>
+
+            <p>
+                Uma hipótese interessante para interpretar as oscilações e o crescimento observados a partir de 2022 em Engenharia de Software é o forte avanço da transformação digital e o trabalho remoto acelerados no período pós-2020. A expansão do setor de tecnologia aumentou a visibilidade da carreira de desenvolvimento de sistemas, atraindo mais estudantes em busca de inserção rápida e flexibilidade no mercado.
+            </p>
+
+            <h5>Mercado de trabalho</h5>
+
+            <p>
+                O salário médio atual registrado diretamente no banco de dados para Engenharia de Software é de
+                <strong>${formatarSalario(salario)}</strong>.
+            </p>
+
+            <p>
+                Esse valor não deve ser interpretado como uma garantia de remuneração. O mercado de tecnologia possui diferentes possibilidades de atuação (startups, multinacionais, trabalho remoto) e a renda pode variar conforme nível de senioridade, linguagem de especialização, domínio do inglês e modelo de contratação.
+            </p>
+
+            <p>
+                A carreira também possui uma característica interessante: a constante atualização profissional e certificações técnicas permitem rápida progressão e acesso a oportunidades no mercado nacional e internacional.
+            </p>
+
+            <h5>Análise do gráfico</h5>
+
+            <p>
+                Podemos observar que o gráfico apresenta uma variação relevante ao longo dos anos, com um crescimento expressivo na procura a partir de 2022/2023. Na cota Universal e de Escola Pública, há um aumento na taxa de candidatos por vaga no período recente. Esse comportamento contrasta com os anos de 2016 a 2018, onde a concorrência era sensivelmente menor. A aproximação da concorrência da cota Pública em relação à Universal nos anos mais recentes reflete a popularização e a maior busca por cursos da área de TI entre estudantes da rede pública.
+            </p>
+
+            <h5>Conclusão</h5>
+
+            <p>
+                Em síntese, os dados mostram que Engenharia de Software combina crescente procura, valorização no mercado de trabalho e uma elevação gradual nas notas mínimas. A análise das cotas evidencia diferenças importantes entre os grupos de ingresso.
+            </p>
+
+            <p>
+                Dessa forma, não basta observar apenas o número de candidatos. É necessário relacionar candidatos, vagas, concorrência, modalidade de ingresso e nota mínima para compreender melhor o processo seletivo.
+            </p>
+        `;
+    } else if (nome.includes('farmácia')) {
+        texto += `
+            <h5>Contexto pós-pandemia e setor de saúde</h5>
+
+            <p>
+                Uma hipótese interessante para interpretar o comportamento do curso de Farmácia é a alteração na busca por carreiras da saúde após o período crítico da pandemia. Embora o setor farmacêutico tenha tido papel central na crise sanitária, o curso registrou uma menor pressão concorrencial em comparação com outros cursos da mesma área, resultando em anos onde vagas de cotas específicas não foram preenchidas por falta de candidatos.
+            </p>
+
+            <h5>Mercado de trabalho</h5>
+
+            <p>
+                O salário médio atual registrado diretamente no banco de dados para Farmácia é de
+                <strong>${formatarSalario(salario)}</strong>.
+            </p>
+
+            <p>
+                Esse valor não deve ser interpretado como uma garantia de remuneração. O mercado farmacêutico possui amplas possibilidades de atuação e a renda pode variar conforme a área (farmácia comunitária, hospitalar, análises clínicas, indústria de medicamentos ou cosmetologia) e a região de atuação.
+            </p>
+
+            <p>
+                A carreira também possui uma característica interessante: a regulamentação exige a presença do profissional em diversos estabelecimentos da cadeia de saúde, garantindo um campo de trabalho regulado e diversificado.
+            </p>
+
+            <h5>Análise do gráfico</h5>
+
+            <p>
+                Podemos observar que o gráfico se mantém em patamares mais baixos em comparação aos demais cursos analisados, demonstrando uma concorrência mais acessível e estável ao longo dos últimos dez anos. A cota Universal mantém a maior taxa de candidatos por vaga, enquanto as cotas reservadas (PCD e cotas sociais) apresentam baixa relação candidato/vaga em quase todo o histórico, com momentos em que a nota mínima zerada indica sobra de vagas ou ausência de inscritos habilitados.
+            </p>
+
+            <h5>Conclusão</h5>
+
+            <p>
+                Em síntese, os dados mostram que Farmácia apresenta um cenário de menor concorrência e notas mínimas mais acessíveis no vestibular, associado a um mercado profissional regulado e com diversas ramificações. A análise das cotas evidencia oportunidades de ingresso mais favoráveis para candidatos preparados.
+            </p>
+
+            <p>
+                Dessa forma, não basta observar apenas o número de candidatos. É necessário relacionar candidatos, vagas, concorrência, modalidade de ingresso e nota mínima para compreender melhor o processo seletivo.
+            </p>
+        `;
+    } else if (nome.includes('odontologia')) {
+        texto += `
+            <h5>Contexto e procura no setor de saúde</h5>
+
+            <p>
+                Uma hipótese interessante para interpretar a evolução de Odontologia ao longo da última década é a busca por carreiras de saúde com possibilidades de empreendedorismo. Mesmo durante e após a pandemia de COVID-19, o curso manteve uma demanda constante por parte dos candidatos que buscam atuação clínica direta.
+            </p>
+
+            <h5>Mercado de trabalho</h5>
+
+            <p>
+                O salário médio atual registrado diretamente no banco de dados para Odontologia é de
+                <strong>${formatarSalario(salario)}</strong>.
+            </p>
+
+            <p>
+                Esse valor não deve ser interpretado como uma garantia de remuneração. O mercado odontológico possui diferentes possibilidades de atuação e a renda pode variar conforme especialização (Ortodontia, Endodontia, Harmonização Orofacial), modelo de atuação (clínica própria, prestação de serviços ou serviço público) e localização geográfica.
+            </p>
+
+            <p>
+                A carreira também possui uma característica interessante: a possibilidade de atuação autônoma e abertura de consultório próprio permite ao profissional construir sua própria cartela de clientes e faturamento.
+            </p>
+
+            <h5>Análise do gráfico</h5>
+
+            <p>
+                Podemos observar que o gráfico de Odontologia apresenta um comportamento intermediário e relativamente constante ao longo dos dez anos. A cota Universal lidera a concorrência com estabilidade, mantendo-se sempre acima dos 10 candidatos por vaga, enquanto a cota de Escola Pública apresenta oscilações moderadas. As cotas com componente racial e PCD mantêm níveis mais baixos de disputa, demonstrando um padrão bem definido e previsível ao longo da série histórica.
+            </p>
+
+            <h5>Conclusão</h5>
+
+            <p>
+                Em síntese, os dados mostram que Odontologia combina demanda constante, estabilidade no patamar de concorrência, notas mínimas intermediárias/altas e um mercado focado na atuação clínica e especializada. A análise das cotas evidencia diferenças importantes entre os grupos de ingresso.
+            </p>
+
+            <p>
+                Dessa forma, não basta observar apenas o número de candidatos. É necessário relacionar candidatos, vagas, concorrência, modalidade de ingresso e nota mínima para compreender melhor o processo seletivo.
+            </p>
+        `;
+    }
 
     return texto;
 }
